@@ -17,7 +17,8 @@ textarea {
   font-optical-sizing: auto;
   line-height: 1.5;
   color: #fff;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 80% 20%,
       #1a0505 0%,
       #0a0202 50%,
@@ -35,9 +36,16 @@ textarea {
 }
 
 p,
-a {
+a,
+span {
   font-family: var(--font-inter), sans-serif;
   font-weight: 400;
+  color: #fff;
+}
+
+label {
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 500;
   color: #fff;
 }
 
