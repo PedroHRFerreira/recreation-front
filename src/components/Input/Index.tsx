@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { InputTypes } from "./Input.types";
+import AtomsIconSvg from "../IconSvg";
 import styles from "./styles.module.scss";
 
 const Input: React.FC<InputTypes> = ({
@@ -10,6 +11,9 @@ const Input: React.FC<InputTypes> = ({
   disabled = false,
 }) => {
   const [inputValue, setInputValue] = useState(value);
+  const [showPassword, setShowPassword] = useState(false);
+  const isPasswordType = type === "password";
+  const inputType = isPasswordType && !showPassword ? "password" : "text";
 
   useEffect(() => {
     setInputValue(value || "");
@@ -22,6 +26,10 @@ const Input: React.FC<InputTypes> = ({
     if (onInput) onInput(val);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className={styles.input}>
       <div className={styles.input_container}>
@@ -29,10 +37,24 @@ const Input: React.FC<InputTypes> = ({
         <input
           className={styles.input_container__input}
           value={inputValue}
-          type={type}
+          type={inputType}
           disabled={disabled}
           onChange={handleChange}
         />
+        {isPasswordType && (
+          <button
+            type="button"
+            className={styles.input_container__toggle}
+            onClick={togglePasswordVisibility}
+            disabled={disabled}
+          >
+            <AtomsIconSvg
+              name={showPassword ? "eye-alt" : "eye"}
+              width="20px"
+              height="20px"
+            />
+          </button>
+        )}
       </div>
     </div>
   );
