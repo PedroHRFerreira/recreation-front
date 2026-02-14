@@ -1,10 +1,11 @@
 import LoginLayout from "@/layouts/Login";
+import Modal from "@/components/Modal/Index";
 
 export default function Login() {
   return (
     <LoginLayout>
       <article>
-        <h1>Tela de Login</h1>
+        <Modal />
       </article>
     </LoginLayout>
   );

@@ -6,9 +6,6 @@ interface LoginLayoutProps {
 export default function LoginLayout({ children }: LoginLayoutProps) {
   return (
     <div>
-      <header>
-        <h1>Login</h1>
-      </header>
       <main>{children}</main>
     </div>
   );
