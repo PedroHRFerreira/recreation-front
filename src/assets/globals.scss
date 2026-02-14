@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body,
+input,
+textarea {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 1.5;
+  color: #fff;
+  background: radial-gradient(
+      circle at 80% 20%,
+      #1a0505 0%,
+      #0a0202 50%,
+      transparent 100%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      #150404 0%,
+      #0a0202 50%,
+      transparent 100%
+    ),
+    radial-gradient(ellipse at 50% 50%, #0f0303 0%, #000000 100%);
+  background-color: #000000;
+  background-attachment: fixed;
+}
+
+p,
+a {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
+  color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 800;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.loading .anim-loading {
+  position: relative;
+  min-height: 763px;
+  pointer-events: none;
+  overflow: hidden;
+  border-color: transparent;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #1e201e 25%, #ecdfcc 50%, #1e201e 75%);
+    background-size: 300%;
+    pointer-events: none;
+    border-radius: 5px;
+    z-index: 99;
+    animation: loadingEffect 2s infinite;
+  }
+
+  @keyframes loadingEffect {
+    from {
+      background-position: 300% 0;
+    }
+    to {
+      background-position: 0% 0;
+    }
+  }
+}
