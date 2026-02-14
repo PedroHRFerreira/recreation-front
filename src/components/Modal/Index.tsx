@@ -5,6 +5,7 @@ import Button from "../Button";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { validationEmail } from "../../hooks/useValidate";
 
 const Modal = () => {
   const [email, setEmail] = useState("");
@@ -15,8 +16,14 @@ const Modal = () => {
     if (!email) {
       toast.error("Email é obrigatório.");
     }
+
     if (!password) {
       toast.error("Senha é obrigatória.");
+    }
+
+    if (email && !validationEmail(email)) {
+      toast.error("Email inválido.");
+      return;
     }
 
     return email && password;
