@@ -30,6 +30,7 @@
     &__input {
       width: 100%;
       padding: 16px 12px;
+      padding-right: 45px;
       border-radius: 8px;
       outline: none;
 
@@ -53,6 +54,29 @@
         cursor: not-allowed;
         color: rgba(153, 153, 153, 0.6);
         border-color: rgba(255, 61, 127, 0.1);
+      }
+    }
+
+    &__toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 61, 127, 0.6);
+      transition: all 0.3s ease;
+
+      &:hover:not(:disabled) {
+        color: rgba(255, 61, 127, 0.9);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     }
   }
