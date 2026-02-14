@@ -4,10 +4,12 @@ import Input from "../Input/Index";
 import Button from "../Button";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const Modal = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const validate = () => {
     if (!email) {
@@ -23,6 +25,7 @@ const Modal = () => {
   const register = () => {
     if (!validate()) return;
     console.log("Registro com:", { email, password });
+    router.push("/");
   };
 
   return (
