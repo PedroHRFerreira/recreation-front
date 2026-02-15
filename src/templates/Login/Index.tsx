@@ -58,7 +58,7 @@ const TemplatesLogin = () => {
       colorSecondary="#ff1a6e"
       onSubmit={handleSubmit}
       footerText="Não tem conta? Criar conta"
-      onFooterClick={() => router.push("/register")}
+      onFooterClick={() => router.push("/login/register")}
     />
   );
 };
