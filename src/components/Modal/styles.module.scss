@@ -48,6 +48,22 @@
       flex-direction: column;
       gap: 24px;
 
+      &__header {
+        text-align: center;
+
+        &__title {
+          font-size: 24px;
+          font-weight: 700;
+          color: #fff;
+        }
+
+        &__subtitle {
+          margin-top: 6px;
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.6);
+        }
+      }
+
       &__border {
         margin: 0 auto;
         display: flex;
@@ -93,6 +109,24 @@
         &:hover {
           background: rgba(255, 61, 127, 0.1);
           border-color: #ff3d7f;
+        }
+      }
+
+      &__footer {
+        text-align: center;
+
+        &__link {
+          background: none;
+          border: none;
+          padding: 0;
+          color: rgba(255, 255, 255, 0.55);
+          font-size: 14px;
+          cursor: pointer;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #ff3d7f;
+          }
         }
       }
     }
