@@ -2,39 +2,22 @@ import style from "./styles.module.scss";
 import AtomsIconSvg from "../IconSvg";
 import Input from "../Input/Index";
 import Button from "../Button";
-import { useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
-import { useRouter } from "next/router";
-import { validationEmail } from "../../hooks/useValidate";
+import { Toaster } from "react-hot-toast";
+import { ModalTypes } from "./Modal.types";
 
-const Modal = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-
-  const validate = () => {
-    if (!email) {
-      toast.error("Email é obrigatório.");
-    }
-
-    if (!password) {
-      toast.error("Senha é obrigatória.");
-    }
-
-    if (email && !validationEmail(email)) {
-      toast.error("Email inválido.");
-      return;
-    }
-
-    return email && password;
-  };
-
-  const register = () => {
-    if (!validate()) return;
-    console.log("Registro com:", { email, password });
-    router.push("/");
-  };
-
+const Modal = ({
+  icon = "register_login",
+  iconWidth = "64px",
+  iconHeight = "64px",
+  inputs,
+  buttonLabel,
+  buttonVariant = "rounded",
+  buttonSize = "large",
+  colorPrimary = "#ff3d7f",
+  colorSecondary = "#ff1a6e",
+  onSubmit,
+  onClose,
+}: ModalTypes) => {
   return (
     <aside className={style.backdrop}>
       <Toaster />
@@ -42,33 +25,40 @@ const Modal = () => {
         <form className={style.modal__form}>
           <div className={style.modal__form__border}>
             <AtomsIconSvg
-              name="register_login"
-              width="64px"
-              height="64px"
+              name={icon}
+              width={iconWidth}
+              height={iconHeight}
               className={style.modal__form__border__icon}
             />
-            {/* TODO: ação de cadastrar um novo login. */}
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className={style.modal__form__closeButton}
+              >
+                ✕
+              </button>
+            )}
           </div>
-          <Input
-            label="Email"
-            type="email"
-            value={email}
-            onInput={(event) => setEmail(event)}
-          />
-          <Input
-            label="Senha"
-            type="password"
-            value={password}
-            onInput={(event) => setPassword(event)}
-          />
+
+          {inputs.map((input, index) => (
+            <Input
+              key={index}
+              label={input.label}
+              type={input.type}
+              value={input.value}
+              onInput={input.onChange}
+            />
+          ))}
+
           <Button
-            variant="rounded"
-            size="large"
-            colorPrimary="#ff3d7f"
-            colorSecondary="#ff1a6e"
-            onClick={register}
+            variant={buttonVariant}
+            size={buttonSize}
+            colorPrimary={colorPrimary}
+            colorSecondary={colorSecondary}
+            onClick={onSubmit}
           >
-            LOGIN
+            {buttonLabel}
           </Button>
         </form>
       </div>
