@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
@@ -37,9 +35,8 @@ const TemplatesLogin = () => {
 
   return (
     <Modal
-      icon="register_login"
-      iconWidth="64px"
-      iconHeight="64px"
+      title="Bem-vindo de volta"
+      subtitle="Faça login para acessar sua conta"
       inputs={[
         {
           label: "Email",
@@ -60,6 +57,8 @@ const TemplatesLogin = () => {
       colorPrimary="#ff3d7f"
       colorSecondary="#ff1a6e"
       onSubmit={handleSubmit}
+      footerText="Não tem conta? Criar conta"
+      onFooterClick={() => router.push("/register")}
     />
   );
 };
