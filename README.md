@@ -65,7 +65,3 @@ ComponentName/
 ├── styles.module.scss
 └── types.ts (opcional)
 ```
-
-## 📄 Licença
-
-MIT

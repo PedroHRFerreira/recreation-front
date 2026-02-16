@@ -1,0 +1,134 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: transparent;
+  z-index: 999;
+
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    max-width: 600px;
+    width: 100%;
+    padding: 40px;
+    height: auto;
+
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(97, 13, 13, 0.2);
+    border-radius: 20px;
+
+    background:
+      radial-gradient(
+        circle at 80% 20%,
+        #1a0505 0%,
+        #0a0202 50%,
+        transparent 100%
+      ),
+      radial-gradient(
+        circle at 20% 80%,
+        #150404 0%,
+        #0a0202 50%,
+        transparent 100%
+      );
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px 0 #0a0202;
+
+    opacity: 1;
+    z-index: 1000;
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      &__header {
+        text-align: center;
+
+        &__title {
+          font-size: 24px;
+          font-weight: 700;
+          color: #fff;
+        }
+
+        &__subtitle {
+          margin-top: 6px;
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.6);
+        }
+      }
+
+      &__border {
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        border: 1px solid rgba(255, 61, 127, 0.5);
+        width: 98px;
+        height: 98px;
+        padding: 14px;
+        border-radius: 25%;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.9;
+          background: rgba(255, 61, 127, 0.1);
+        }
+
+        &__icon {
+          color: #ff1a6e;
+          filter: drop-shadow(0 0 16px rgba(255, 61, 127, 1));
+        }
+      }
+
+      &__closeButton {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(255, 61, 127, 0.5);
+        border-radius: 50%;
+        background: rgba(26, 5, 5, 0.8);
+        color: #ff3d7f;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 61, 127, 0.1);
+          border-color: #ff3d7f;
+        }
+      }
+
+      &__footer {
+        text-align: center;
+
+        &__link {
+          background: none;
+          border: none;
+          padding: 0;
+          color: rgba(255, 255, 255, 0.55);
+          font-size: 14px;
+          cursor: pointer;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #ff3d7f;
+          }
+        }
+      }
+    }
+  }
+}
