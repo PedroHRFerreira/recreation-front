@@ -57,14 +57,20 @@
 
 @media (max-width: 600px) {
   .header {
-    padding: 10px 16px;
+    padding: 10px 12px;
+    gap: 8px;
 
     &__search {
       max-width: none;
+
+      :global(.input_container__input) {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
     }
 
     &__actions {
-      margin-left: 12px;
+      margin-left: 8px;
     }
   }
 }
