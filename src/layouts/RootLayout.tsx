@@ -1,4 +1,5 @@
 import "@/assets/globals.scss";
+import Header from "@/components/Header";
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -6,9 +7,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <div>
-      <header>
-        <h1>Header do Site</h1>
-      </header>
+      <Header />
       <main>{children}</main>
       <footer>
         <p>Footer do Site</p>
