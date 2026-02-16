@@ -9,3 +9,25 @@
     gap: 20px;
   }
 }
+
+@media (max-width: 768px) {
+  .home {
+    padding: 24px 16px;
+
+    &__grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .home {
+    padding: 16px 12px;
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+}
