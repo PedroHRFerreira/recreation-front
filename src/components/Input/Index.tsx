@@ -7,7 +7,9 @@ const Input: React.FC<InputTypes> = ({
   label,
   type = "text",
   value = "",
+  placeholder,
   onInput,
+  onKeyDown,
   disabled = false,
 }) => {
   const [inputValue, setInputValue] = useState(value);
@@ -33,13 +35,17 @@ const Input: React.FC<InputTypes> = ({
   return (
     <div className={styles.input}>
       <div className={styles.input_container}>
-        <label className={styles.input_container__label}>{label}</label>
+        {label && (
+          <label className={styles.input_container__label}>{label}</label>
+        )}
         <input
           className={styles.input_container__input}
           value={inputValue}
           type={inputType}
+          placeholder={placeholder}
           disabled={disabled}
           onChange={handleChange}
+          onKeyDown={onKeyDown}
         />
         {isPasswordType && (
           <button
