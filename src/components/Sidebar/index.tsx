@@ -5,9 +5,8 @@ import AtomsText from "../Text/Index";
 
 const sidebarTypes: SidebarFilter[] = [
   { label: "Todos", value: "todos" },
-  { label: "Imagens", value: "imagens" },
-  { label: "Vídeos", value: "videos" },
-  { label: "Documentos", value: "documentos" },
+  { label: "Landing Page", value: "landing_page" },
+  { label: "Sistema", value: "system" },
 ];
 
 const Sidebar = () => {
