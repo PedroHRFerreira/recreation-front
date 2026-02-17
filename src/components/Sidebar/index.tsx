@@ -17,9 +17,10 @@ const Sidebar = () => {
     <aside className={styles.sidebar}>
       <div className={styles.sidebar__section}>
         <AtomsText
-          fontSize="12px"
-          fontWeight="bold"
-          color="rgba(255, 255, 255, 0.5)"
+          fontSize="11px"
+          fontFamily="var(--font-poppins), sans-serif"
+          fontWeight={600}
+          color="rgba(255, 255, 255, 0.4)"
         >
           TIPO
         </AtomsText>
@@ -30,7 +31,12 @@ const Sidebar = () => {
               className={`${styles.sidebar__item} ${selectedType === type.value ? styles["sidebar__item--active"] : ""}`}
               onClick={() => setSelectedType(type.value)}
             >
-              <AtomsText fontSize="14px" color="inherit">
+              <AtomsText
+                fontSize="14px"
+                fontFamily="var(--font-inter), sans-serif"
+                fontWeight={selectedType === type.value ? 500 : 400}
+                color="inherit"
+              >
                 {type.label}
               </AtomsText>
             </li>
@@ -40,9 +46,10 @@ const Sidebar = () => {
 
       <div className={styles.sidebar__section}>
         <AtomsText
-          fontSize="12px"
-          fontWeight="bold"
-          color="rgba(255, 255, 255, 0.5)"
+          fontSize="11px"
+          fontFamily="var(--font-poppins), sans-serif"
+          fontWeight={600}
+          color="rgba(255, 255, 255, 0.4)"
         >
           STATUS
         </AtomsText>
@@ -54,7 +61,12 @@ const Sidebar = () => {
             <span
               className={`${styles.sidebar__dot} ${styles["sidebar__dot--ativo"]}`}
             />
-            <AtomsText fontSize="14px" color="inherit">
+            <AtomsText
+              fontSize="14px"
+              fontFamily="var(--font-inter), sans-serif"
+              fontWeight={status === "ativo" ? 500 : 400}
+              color="inherit"
+            >
               Ativo
             </AtomsText>
           </li>
@@ -65,7 +77,12 @@ const Sidebar = () => {
             <span
               className={`${styles.sidebar__dot} ${styles["sidebar__dot--desativo"]}`}
             />
-            <AtomsText fontSize="14px" color="inherit">
+            <AtomsText
+              fontSize="14px"
+              fontFamily="var(--font-inter), sans-serif"
+              fontWeight={status === "desativo" ? 500 : 400}
+              color="inherit"
+            >
               Desativo
             </AtomsText>
           </li>
