@@ -3,7 +3,7 @@ export interface ButtonTypes {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
-  variant?: "primary" | "secondary" | "ghost" | "rounded";
+  variant?: "primary" | "secondary" | "ghost" | "rounded" | "icon" | "circle";
   size?: "small" | "medium" | "large";
   className?: string;
   colorPrimary?: string;

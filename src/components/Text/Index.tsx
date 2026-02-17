@@ -4,6 +4,7 @@ import { IAtomsTextProps } from "./AtomsText.types";
 const AtomsText: React.FC<IAtomsTextProps> = ({
   children,
   fontSize = "16px",
+  fontFamily,
   fontWeight = "normal",
   color = "#333",
   lineHeight = "1.5",
@@ -12,7 +13,7 @@ const AtomsText: React.FC<IAtomsTextProps> = ({
   return (
     <p
       className={style.text}
-      style={{ fontSize, fontWeight, color, lineHeight, textAlign }}
+      style={{ fontSize, fontFamily, fontWeight, color, lineHeight, textAlign }}
     >
       {children}
     </p>

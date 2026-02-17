@@ -12,7 +12,8 @@ const Button = ({
   colorPrimary = "#ff3d7f",
   colorSecondary = "#ff1a6e",
 }: ButtonTypes) => {
-  const buttonClasses = `${styles.button} ${styles[`button--${variant}`]} ${styles[`button--${size}`]} ${className}`;
+  const skipSize = variant === "icon" || variant === "circle";
+  const buttonClasses = `${styles.button} ${styles[`button--${variant}`]} ${!skipSize ? styles[`button--${size}`] : ""} ${className}`;
 
   const style: React.CSSProperties = {
     ["--color-primary" as any]: colorPrimary,

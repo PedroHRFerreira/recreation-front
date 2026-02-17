@@ -1,4 +1,5 @@
 import RootLayout from "@/layouts/RootLayout";
+import TemplatesHome from "@/templates/Home/Index";
 import { useAuthRedirect } from "@/hooks/middleware/auth";
 
 export default function Home() {
@@ -7,7 +8,7 @@ export default function Home() {
   return (
     <RootLayout>
       <article>
-        <h1>Tela de Home</h1>
+        <TemplatesHome />
       </article>
     </RootLayout>
   );
