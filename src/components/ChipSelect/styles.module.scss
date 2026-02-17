@@ -1,0 +1,35 @@
+.chip-select {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__chip {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      border-color: rgba(255, 61, 127, 0.4);
+      color: #fff;
+    }
+
+    &--active {
+      background: rgba(255, 61, 127, 0.15);
+      border-color: rgba(255, 61, 127, 0.6);
+      color: #ff3d7f;
+      box-shadow: 0 0 12px rgba(255, 61, 127, 0.15);
+    }
+  }
+}
