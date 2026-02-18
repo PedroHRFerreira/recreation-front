@@ -6,7 +6,7 @@ import AtomsText from "../Text/Index";
 const sidebarTypes: SidebarFilter[] = [
   { label: "Todos", value: "todos" },
   { label: "Landing Page", value: "landing_page" },
-  { label: "Sistema", value: "system" },
+  { label: "Design", value: "design" },
 ];
 
 const Sidebar = () => {

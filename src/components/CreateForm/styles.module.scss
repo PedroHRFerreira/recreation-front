@@ -1,0 +1,29 @@
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .create-form {
+    &__actions {
+      justify-content: stretch;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
