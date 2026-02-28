@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import Input from "@/components/Input/Index";
 import Button from "@/components/Button";
@@ -28,8 +28,9 @@ const SECTION_OPTIONS = [
   { label: "Footer", value: "footer" },
 ];
 
-const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
-  const [formData, setFormData] = useState<CreateFormData>({
+const CreateForm = ({ generationType, onGenerate, initialData }: CreateFormTypes) => {
+  const [formData, setFormData] = useState<CreateFormData>(
+    initialData || {
     name: "",
     businessType: "",
     description: "",
@@ -38,6 +39,12 @@ const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
     colorSecondary: "#ff1a6e",
     sections: [],
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
 
   const handleInputChange = (field: keyof CreateFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
