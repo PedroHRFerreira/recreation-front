@@ -40,7 +40,6 @@ const Header = () => {
           <AtomsIconSvg name="search" width="20px" height="20px" />
         </Button>
       </section>
-
       <section className={styles.header__actions}>
         <Button variant="circle" onClick={handleProfile}>
           <span className={styles.header__actions__avatar}>P</span>
