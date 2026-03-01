@@ -5,9 +5,10 @@
 
   &__header {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: flex-end;
     margin-bottom: 32px;
+    position: relative;
   }
 
   &__back {
@@ -25,16 +26,38 @@
       opacity: 0.8;
     }
   }
+
+  &__export {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
 }
 
 @media (max-width: 768px) {
   .edit {
     padding: 24px 16px;
-  }
-}
 
-@media (max-width: 480px) {
-  .edit {
-    padding: 16px 12px;
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    &__export {
+      width: 100%;
+      text-align: center;
+    }
   }
 }

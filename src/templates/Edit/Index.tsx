@@ -5,7 +5,11 @@ import AtomsIconSvg from "@/components/IconSvg";
 import CreateForm from "@/components/CreateForm/Index";
 import type { CreateFormData } from "../Create/Create.types";
 
-const TemplatesEdit = ({ projectId }: { projectId: string | string[] | undefined }) => {
+const TemplatesEdit = ({
+  projectId,
+}: {
+  projectId: string | string[] | undefined;
+}) => {
   const router = useRouter();
 
   // Mock dos dados que virão da API no futuro
@@ -24,6 +28,10 @@ const TemplatesEdit = ({ projectId }: { projectId: string | string[] | undefined
     // Aqui faremos o PUT depois
   };
 
+  const handleExport = () => {
+    console.log("Id da tela de edição:", projectId);
+  };
+
   return (
     <section className={styles.edit}>
       <div className={styles.edit__header}>
@@ -37,13 +45,18 @@ const TemplatesEdit = ({ projectId }: { projectId: string | string[] | undefined
         <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
           Editar Projeto
         </AtomsText>
+        <button className={styles.edit__export} onClick={handleExport}>
+          <AtomsText fontSize="14px" fontWeight={600} color="#fff">
+            Exportar
+          </AtomsText>
+        </button>
         <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
           ID do projeto: {projectId}
         </AtomsText>
       </div>
 
       <CreateForm
-        generationType="landing-page" 
+        generationType="landing-page"
         onGenerate={handleUpdate}
         initialData={initialData}
       />
