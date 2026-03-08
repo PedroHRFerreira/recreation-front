@@ -28,7 +28,7 @@ const SECTION_OPTIONS = [
   { label: "Footer", value: "footer" },
 ];
 
-const CreateForm = ({ generationType, onGenerate, initialData }: CreateFormTypes) => {
+const CreateForm = ({ generationType, onGenerate, initialData, isEdit }: CreateFormTypes) => {
   const [formData, setFormData] = useState<CreateFormData>(
     initialData || {
     name: "",
@@ -121,7 +121,7 @@ const CreateForm = ({ generationType, onGenerate, initialData }: CreateFormTypes
         onChange={handleColorChange}
       />
 
-      {generationType === "landing-page" && (
+      {generationType === "landing-page" && !isEdit && (
         <ChipSelect
           label="Seções da página"
           options={SECTION_OPTIONS}
@@ -138,7 +138,7 @@ const CreateForm = ({ generationType, onGenerate, initialData }: CreateFormTypes
           onClick={handleSubmit}
           disabled={!isFormValid}
         >
-          Gerar {generationType === "design" ? "Design" : "Landing Page"}
+          Gerar {isEdit ? "Salvar Alterações" : (generationType === "design" ? "Gerar Design" : "Gerar Landing Page")}
         </Button>
       </div>
     </div>

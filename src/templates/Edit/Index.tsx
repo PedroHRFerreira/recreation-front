@@ -26,10 +26,12 @@ const TemplatesEdit = ({
   const handleUpdate = (data: CreateFormData) => {
     console.log("Atualizando projeto:", projectId, data);
     // Aqui faremos o PUT depois
+    router.push("/");
   };
 
   const handleExport = () => {
     console.log("Id da tela de edição:", projectId);
+    router.push("/");
   };
 
   return (
@@ -51,14 +53,15 @@ const TemplatesEdit = ({
           </AtomsText>
         </button>
         <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
-          ID do projeto: {projectId}
+          Código do projeto: {projectId}
         </AtomsText>
       </div>
 
       <CreateForm
-        generationType="landing-page"
-        onGenerate={handleUpdate}
+        isEdit={true}
         initialData={initialData}
+        onGenerate={handleUpdate}
+        generationType="landing-page"
       />
     </section>
   );

@@ -7,4 +7,5 @@ export interface CreateFormTypes {
   generationType: GenerationType;
   onGenerate: (data: CreateFormData) => void;
   initialData?: CreateFormData;
+  isEdit?: boolean;
 }
