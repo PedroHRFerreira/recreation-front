@@ -44,14 +44,16 @@ const TemplatesEdit = ({
           </AtomsText>
         </button>
 
-        <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
-          Editar Projeto
-        </AtomsText>
-        <button className={styles["edit__export"]} onClick={handleExport}>
-          <AtomsText fontSize="14px" fontWeight={600} color="#fff">
-            Exportar
+        <div className={styles["edit__title-row"]}>
+          <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
+            Editar Projeto
           </AtomsText>
-        </button>
+          <button className={styles["edit__export"]} onClick={handleExport}>
+            <AtomsText fontSize="14px" fontWeight={600} color="#fff">
+              Exportar
+            </AtomsText>
+          </button>
+        </div>
         <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
           Código do projeto: {projectId}
         </AtomsText>

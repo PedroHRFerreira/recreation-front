@@ -5,10 +5,15 @@
 
   &__header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 8px;
     margin-bottom: 32px;
-    position: relative;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__back {
