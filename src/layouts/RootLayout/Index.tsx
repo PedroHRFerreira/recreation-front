@@ -13,12 +13,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const router = useRouter();
 
   return (
-    <div className={styles.layout}>
+    <div className={styles["layout"]}>
       <Header />
-      <div className={styles.layout__body}>
+      <div className={styles["layout__body"]}>
         {router.pathname === "/" && <Sidebar />}
 
-        <main className={styles.layout__main}>{children}</main>
+        <main className={styles["layout__main"]}>{children}</main>
       </div>
       <Footer />
     </div>
