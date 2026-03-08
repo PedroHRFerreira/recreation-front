@@ -30,9 +30,9 @@ const TemplatesEdit = ({
   };
 
   return (
-    <section className={styles.edit}>
-      <div className={styles.edit__header}>
-        <button className={styles.edit__back} onClick={() => router.back()}>
+    <section className={styles["edit"]}>
+      <div className={styles["edit__header"]}>
+        <button className={styles["edit__back"]} onClick={() => router.back()}>
           <AtomsIconSvg name="arrow-left" width="20px" height="20px" />
           <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
             Voltar
