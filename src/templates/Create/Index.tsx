@@ -27,7 +27,13 @@ const TemplatesCreate = () => {
   };
 
   return (
-    <section className={styles.create}>
+    <section
+      className={
+        generationType
+          ? styles.create
+          : `${styles.create} ${styles["create--select"]}`
+      }
+    >
       <div className={styles.create__header}>
         <button className={styles.create__back} onClick={handleBack}>
           <AtomsIconSvg name="arrow-left" width="20px" height="20px" />
@@ -36,7 +42,7 @@ const TemplatesCreate = () => {
             fontWeight="normal"
             color="rgba(255,255,255,0.6)"
           >
-            {generationType ? "Voltar" : "Home"}
+            Voltar
           </AtomsText>
         </button>
 

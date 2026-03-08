@@ -1,4 +1,4 @@
-import RootLayout from "@/layouts/RootLayout";
+import RootLayout from "@/layouts/RootLayout/Index";
 import TemplatesHome from "@/templates/Home/Index";
 import { useAuthRedirect } from "@/hooks/middleware/auth";
 
