@@ -28,16 +28,23 @@ const SECTION_OPTIONS = [
   { label: "Footer", value: "footer" },
 ];
 
-const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
-  const [formData, setFormData] = useState<CreateFormData>({
-    name: "",
-    businessType: "",
-    description: "",
-    style: "",
-    colorPrimary: "#ff3d7f",
-    colorSecondary: "#ff1a6e",
-    sections: [],
-  });
+const CreateForm = ({
+  generationType,
+  onGenerate,
+  initialData,
+  isEdit,
+}: CreateFormTypes) => {
+  const [formData, setFormData] = useState<CreateFormData>(
+    initialData || {
+      name: "",
+      businessType: "",
+      description: "",
+      style: "",
+      colorPrimary: "#ff3d7f",
+      colorSecondary: "#ff1a6e",
+      sections: [],
+    },
+  );
 
   const handleInputChange = (field: keyof CreateFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -114,7 +121,7 @@ const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
         onChange={handleColorChange}
       />
 
-      {generationType === "landing-page" && (
+      {generationType === "landing-page" && !isEdit && (
         <ChipSelect
           label="Seções da página"
           options={SECTION_OPTIONS}
@@ -131,7 +138,11 @@ const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
           onClick={handleSubmit}
           disabled={!isFormValid}
         >
-          Gerar {generationType === "design" ? "Design" : "Landing Page"}
+          {isEdit
+            ? "Salvar Alterações"
+            : generationType === "design"
+              ? "Gerar Design"
+              : "Gerar Landing Page"}
         </Button>
       </div>
     </div>
