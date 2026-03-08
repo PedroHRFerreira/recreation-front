@@ -15,10 +15,10 @@ const Button = ({
   const skipSize = variant === "icon" || variant === "circle";
   const buttonClasses = `${styles.button} ${styles[`button--${variant}`]} ${!skipSize ? styles[`button--${size}`] : ""} ${className}`;
 
-  const style: React.CSSProperties = {
-    ["--color-primary" as any]: colorPrimary,
-    ["--color-secondary" as any]: colorSecondary,
-  };
+  const style = {
+    "--color-primary": colorPrimary,
+    "--color-secondary": colorSecondary,
+  } as React.CSSProperties;
 
   return (
     <button
