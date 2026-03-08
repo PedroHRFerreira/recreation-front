@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import Input from "@/components/Input/Index";
 import Button from "@/components/Button";
@@ -28,8 +28,9 @@ const SECTION_OPTIONS = [
   { label: "Footer", value: "footer" },
 ];
 
-const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
-  const [formData, setFormData] = useState<CreateFormData>({
+const CreateForm = ({ generationType, onGenerate, initialData, isEdit }: CreateFormTypes) => {
+  const [formData, setFormData] = useState<CreateFormData>(
+    initialData || {
     name: "",
     businessType: "",
     description: "",
@@ -38,6 +39,12 @@ const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
     colorSecondary: "#ff1a6e",
     sections: [],
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
 
   const handleInputChange = (field: keyof CreateFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -114,7 +121,7 @@ const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
         onChange={handleColorChange}
       />
 
-      {generationType === "landing-page" && (
+      {generationType === "landing-page" && !isEdit && (
         <ChipSelect
           label="Seções da página"
           options={SECTION_OPTIONS}
@@ -131,7 +138,7 @@ const CreateForm = ({ generationType, onGenerate }: CreateFormTypes) => {
           onClick={handleSubmit}
           disabled={!isFormValid}
         >
-          Gerar {generationType === "design" ? "Design" : "Landing Page"}
+          Gerar {isEdit ? "Salvar Alterações" : (generationType === "design" ? "Gerar Design" : "Gerar Landing Page")}
         </Button>
       </div>
     </div>

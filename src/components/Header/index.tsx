@@ -1,19 +1,25 @@
 import styles from "./styles.module.scss";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import AtomsIconSvg from "../IconSvg";
 import Input from "../Input/Index";
 import Button from "../Button";
 
 const Header = () => {
   const [search, setSearch] = useState("");
+  const router = useRouter(); 
 
   const handleSearch = () => {
     if (!search.trim()) return;
+
+    if (router.pathname !== "/") {
+      router.push("/");
+    }
     console.log("pesquisar:", search);
   };
 
   const handleProfile = () => {
-    console.log("abrir perfil");
+    router.push("/profile");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
