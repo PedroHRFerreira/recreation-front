@@ -1,4 +1,4 @@
-.create {
+.edit {
   padding: 32px 24px;
   max-width: 900px;
   margin: 0 auto;
@@ -65,26 +65,14 @@
   }
 }
 
-.create--select {
-  padding: 32px 64px;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
 @media (max-width: 768px) {
-  .create {
+  .edit {
     padding: 24px 16px;
-  }
-  .create--select {
-    padding: 24px 8px;
   }
 }
 
 @media (max-width: 480px) {
-  .create {
+  .edit {
     padding: 16px 12px;
-  }
-  .create--select {
-    padding: 12px 4px;
   }
 }
