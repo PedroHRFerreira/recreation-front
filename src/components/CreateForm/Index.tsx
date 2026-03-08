@@ -28,17 +28,23 @@ const SECTION_OPTIONS = [
   { label: "Footer", value: "footer" },
 ];
 
-const CreateForm = ({ generationType, onGenerate, initialData, isEdit }: CreateFormTypes) => {
+const CreateForm = ({
+  generationType,
+  onGenerate,
+  initialData,
+  isEdit,
+}: CreateFormTypes) => {
   const [formData, setFormData] = useState<CreateFormData>(
     initialData || {
-    name: "",
-    businessType: "",
-    description: "",
-    style: "",
-    colorPrimary: "#ff3d7f",
-    colorSecondary: "#ff1a6e",
-    sections: [],
-  });
+      name: "",
+      businessType: "",
+      description: "",
+      style: "",
+      colorPrimary: "#ff3d7f",
+      colorSecondary: "#ff1a6e",
+      sections: [],
+    },
+  );
 
   useEffect(() => {
     if (initialData) {
@@ -138,7 +144,11 @@ const CreateForm = ({ generationType, onGenerate, initialData, isEdit }: CreateF
           onClick={handleSubmit}
           disabled={!isFormValid}
         >
-          Gerar {isEdit ? "Salvar Alterações" : (generationType === "design" ? "Gerar Design" : "Gerar Landing Page")}
+          {isEdit
+            ? "Salvar Alterações"
+            : generationType === "design"
+              ? "Gerar Design"
+              : "Gerar Landing Page"}
         </Button>
       </div>
     </div>
