@@ -7,7 +7,7 @@ import Button from "../Button";
 
 const Header = () => {
   const [search, setSearch] = useState("");
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleSearch = () => {
     if (!search.trim()) return;
@@ -27,8 +27,8 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <section className={styles.header__search}>
+    <header className={styles["header"]}>
+      <section className={styles["header__search"]}>
         <Input
           type="text"
           placeholder="Procurar"
@@ -40,9 +40,9 @@ const Header = () => {
           <AtomsIconSvg name="search" width="20px" height="20px" />
         </Button>
       </section>
-      <section className={styles.header__actions}>
+      <section className={styles["header__actions"]}>
         <Button variant="circle" onClick={handleProfile}>
-          <span className={styles.header__actions__avatar}>P</span>
+          <span className={styles["header__actions__avatar"]}>P</span>
         </Button>
       </section>
     </header>
