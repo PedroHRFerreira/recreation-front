@@ -29,11 +29,6 @@ const TemplatesEdit = ({
     router.push("/");
   };
 
-  const handleExport = () => {
-    console.log("Id da tela de edição:", projectId);
-    router.push("/");
-  };
-
   return (
     <section className={styles["edit"]}>
       <div className={styles["edit__header"]}>
@@ -44,16 +39,9 @@ const TemplatesEdit = ({
           </AtomsText>
         </button>
 
-        <div className={styles["edit__title-row"]}>
-          <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
-            Editar Projeto
-          </AtomsText>
-          <button className={styles["edit__export"]} onClick={handleExport}>
-            <AtomsText fontSize="14px" fontWeight={600} color="#fff">
-              Exportar
-            </AtomsText>
-          </button>
-        </div>
+        <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
+          Editar Projeto
+        </AtomsText>
         <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
           Código do projeto: {projectId}
         </AtomsText>
