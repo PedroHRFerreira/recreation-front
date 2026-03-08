@@ -12,7 +12,7 @@ const TemplatesHome = () => {
   };
 
   const handleClick = (id: number) => {
-    console.log("abriu card", id);
+    router.push(`/${id}/edit`);
   };
 
   return (
