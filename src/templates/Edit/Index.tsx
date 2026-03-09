@@ -59,6 +59,13 @@ const TemplatesEdit = ({
         <button className={styles["edit__export"]} onClick={handleExport}>
           Exportar Projeto
         </button>
+
+        <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
+          Editar Projeto
+        </AtomsText>
+        <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
+          Código do projeto: {projectId}
+        </AtomsText>
       </div>
 
       <CreateForm

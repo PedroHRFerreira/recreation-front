@@ -5,6 +5,7 @@
 
   &__header {
     display: flex;
+<<<<<<< HEAD
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 32px;
@@ -22,6 +23,11 @@
     display: flex;
     align-items: center;
     margin: 8px 0;
+=======
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+>>>>>>> main
   }
 
   &__back {
@@ -77,6 +83,7 @@
       box-shadow: 0 0 0 2px #ff3d7f33;
     }
   }
+<<<<<<< HEAD
 
   &__export {
     background: none;
@@ -99,6 +106,8 @@
       transform: scale(0.95);
     }
   }
+=======
+>>>>>>> main
 }
 
 @media (max-width: 768px) {
@@ -110,6 +119,7 @@
       align-items: flex-start;
       gap: 16px;
     }
+<<<<<<< HEAD
     &__header-info {
       display: flex;
       flex-direction: column;
@@ -119,5 +129,7 @@
       width: 100%;
       text-align: center;
     }
+=======
+>>>>>>> main
   }
 }
