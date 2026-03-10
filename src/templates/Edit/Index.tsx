@@ -23,6 +23,10 @@ const TemplatesEdit = ({
     sections: ["hero", "about"],
   };
 
+  const handleExport = () => {
+    console.log("Exportando projeto:", projectId);
+  };
+
   const handleUpdate = (data: CreateFormData) => {
     console.log("Atualizando projeto:", projectId, data);
     // Aqui faremos o PUT depois
@@ -32,11 +36,22 @@ const TemplatesEdit = ({
   return (
     <section className={styles["edit"]}>
       <div className={styles["edit__header"]}>
-        <button className={styles["edit__back"]} onClick={() => router.back()}>
-          <AtomsIconSvg name="arrow-left" width="20px" height="20px" />
+        <div className={styles["edit__header-info"]}>
+          <button
+            className={styles["edit__back"]}
+            onClick={() => router.back()}
+          >
+            <AtomsIconSvg name="arrow-left" width="20px" height="20px" />
+            <AtomsText fontSize="14px">Voltar</AtomsText>
+          </button>
+
           <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
-            Voltar
+            Código do projeto: {projectId}
           </AtomsText>
+        </div>
+
+        <button className={styles["edit__export"]} onClick={handleExport}>
+          Exportar Projeto
         </button>
 
         <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
