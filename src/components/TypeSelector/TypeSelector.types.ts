@@ -1,4 +1,4 @@
-import type { GenerationType } from "@/templates/Create/Create.types";
+import { GenerationType } from "@/enum/create.enum";
 
 export interface TypeSelectorTypes {
   onSelect: (type: GenerationType) => void;

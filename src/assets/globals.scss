@@ -1,3 +1,5 @@
+@use "styles/themes";
+
 * {
   margin: 0;
   padding: 0;
@@ -17,23 +19,14 @@ textarea {
   font-weight: 400;
   font-optical-sizing: auto;
   line-height: 1.5;
-  color: #fff;
+  color: var(--text-primary);
   background:
-    radial-gradient(
-      circle at 80% 20%,
-      #1a0505 0%,
-      #0a0202 50%,
-      transparent 100%
-    ),
-    radial-gradient(
-      circle at 20% 80%,
-      #150404 0%,
-      #0a0202 50%,
-      transparent 100%
-    ),
-    radial-gradient(ellipse at 50% 50%, #0f0303 0%, #000000 100%);
-  background-color: #000000;
+    var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-body);
+  background-color: var(--bg-primary);
   background-attachment: fixed;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 p,
@@ -41,19 +34,19 @@ a,
 span {
   font-family: var(--font-inter), sans-serif;
   font-weight: 400;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 label {
   font-family: var(--font-poppins), sans-serif;
   font-weight: 500;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 button {
   font-family: var(--font-inter), sans-serif;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 h1,
@@ -64,6 +57,7 @@ h5,
 h6 {
   font-family: var(--font-poppins), sans-serif;
   font-weight: 800;
+  color: var(--text-primary);
 }
 
 ul {
@@ -86,7 +80,7 @@ a {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(45deg, #1e201e 25%, #ecdfcc 50%, #1e201e 75%);
+    background: var(--loading-gradient);
     background-size: 300%;
     pointer-events: none;
     border-radius: 5px;

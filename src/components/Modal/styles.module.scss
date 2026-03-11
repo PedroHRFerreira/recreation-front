@@ -19,26 +19,14 @@
     height: auto;
 
     transform: translate(-50%, -50%);
-    border: 1px solid rgba(97, 13, 13, 0.2);
+    border: 1px solid var(--border-accent);
     border-radius: 20px;
 
-    background:
-      radial-gradient(
-        circle at 80% 20%,
-        #1a0505 0%,
-        #0a0202 50%,
-        transparent 100%
-      ),
-      radial-gradient(
-        circle at 20% 80%,
-        #150404 0%,
-        #0a0202 50%,
-        transparent 100%
-      );
+    background: var(--bg-gradient-1), var(--bg-gradient-2);
 
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 8px 32px 0 #0a0202;
+    box-shadow: var(--shadow-modal);
 
     opacity: 1;
     z-index: 1000;
@@ -54,13 +42,13 @@
         &__title {
           font-size: 24px;
           font-weight: 700;
-          color: #fff;
+          color: var(--text-primary);
         }
 
         &__subtitle {
           margin-top: 6px;
           font-size: 14px;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--text-muted);
         }
       }
 
@@ -71,7 +59,7 @@
         justify-content: center;
         position: relative;
 
-        border: 1px solid rgba(255, 61, 127, 0.5);
+        border: 1px solid var(--border-accent-strong);
         width: 98px;
         height: 98px;
         padding: 14px;
@@ -81,12 +69,12 @@
 
         &:hover {
           opacity: 0.9;
-          background: rgba(255, 61, 127, 0.1);
+          background: var(--primary-alpha-10);
         }
 
         &__icon {
-          color: #ff1a6e;
-          filter: drop-shadow(0 0 16px rgba(255, 61, 127, 1));
+          color: var(--color-primary-dark);
+          filter: drop-shadow(0 0 16px var(--color-primary));
         }
       }
 
@@ -96,10 +84,10 @@
         right: -15px;
         width: 30px;
         height: 30px;
-        border: 1px solid rgba(255, 61, 127, 0.5);
+        border: 1px solid var(--border-accent-strong);
         border-radius: 50%;
-        background: rgba(26, 5, 5, 0.8);
-        color: #ff3d7f;
+        background: var(--bg-elevated);
+        color: var(--color-primary);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -107,8 +95,8 @@
         transition: all 0.3s ease;
 
         &:hover {
-          background: rgba(255, 61, 127, 0.1);
-          border-color: #ff3d7f;
+          background: var(--primary-alpha-10);
+          border-color: var(--color-primary);
         }
       }
 
@@ -119,13 +107,13 @@
           background: none;
           border: none;
           padding: 0;
-          color: rgba(255, 255, 255, 0.55);
+          color: var(--text-muted);
           font-size: 14px;
           cursor: pointer;
           transition: color 0.2s ease;
 
           &:hover {
-            color: #ff3d7f;
+            color: var(--color-primary);
           }
         }
       }

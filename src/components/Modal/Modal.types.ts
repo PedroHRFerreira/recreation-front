@@ -1,3 +1,6 @@
+import { InputType } from "@/enum/input.enum";
+import { ButtonVariant, ButtonSize } from "@/enum/button.enum";
+
 export interface ModalTypes {
   icon?: string;
   iconWidth?: string;
@@ -8,13 +11,13 @@ export interface ModalTypes {
   onFooterClick?: () => void;
   inputs: Array<{
     label: string;
-    type: "email" | "password" | "text";
+    type: `${InputType}` | InputType;
     value: string;
     onChange: (value: string) => void;
   }>;
   buttonLabel: string;
-  buttonVariant?: "primary" | "secondary" | "ghost" | "rounded";
-  buttonSize?: "small" | "medium" | "large";
+  buttonVariant?: `${ButtonVariant}` | ButtonVariant;
+  buttonSize?: `${ButtonSize}` | ButtonSize;
   colorPrimary?: string;
   colorSecondary?: string;
   onSubmit: () => void;

@@ -1,10 +1,12 @@
+import { ButtonVariant, ButtonSize, ButtonType } from "@/enum/button.enum";
+
 export interface ButtonTypes {
   children: React.ReactNode;
   onClick?: () => void;
-  type?: "button" | "submit" | "reset";
+  type?: `${ButtonType}` | ButtonType;
   disabled?: boolean;
-  variant?: "primary" | "secondary" | "ghost" | "rounded" | "icon" | "circle";
-  size?: "small" | "medium" | "large";
+  variant?: `${ButtonVariant}` | ButtonVariant;
+  size?: `${ButtonSize}` | ButtonSize;
   className?: string;
   colorPrimary?: string;
   colorSecondary?: string;
