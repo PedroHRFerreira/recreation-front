@@ -1,9 +1,11 @@
+import { TextAlign, FontWeight } from "@/enum/text.enum";
+
 export interface IAtomsTextProps {
   children: React.ReactNode;
   fontSize?: string;
   fontFamily?: string;
-  fontWeight?: "normal" | "bold" | "lighter" | "bolder" | number;
+  fontWeight?: `${FontWeight}` | FontWeight | number;
   color?: string;
   lineHeight?: string;
-  textAlign?: "left" | "center" | "right" | "justify";
+  textAlign?: `${TextAlign}` | TextAlign;
 }

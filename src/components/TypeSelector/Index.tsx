@@ -2,13 +2,14 @@ import styles from "./styles.module.scss";
 import AtomsText from "@/components/Text/Index";
 import AtomsIconSvg from "@/components/IconSvg";
 import type { TypeSelectorTypes } from "./TypeSelector.types";
+import { GenerationType } from "@/enum/create.enum";
 
 const TypeSelector = ({ onSelect }: TypeSelectorTypes) => {
   return (
     <div className={styles["type-selector"]}>
       <div
         className={styles["type-selector__card"]}
-        onClick={() => onSelect("design")}
+        onClick={() => onSelect(GenerationType.DESIGN)}
       >
         <div className={styles["type-selector__card__icon"]}>
           <AtomsIconSvg name="design" width="40px" height="40px" />
@@ -27,7 +28,7 @@ const TypeSelector = ({ onSelect }: TypeSelectorTypes) => {
 
       <div
         className={styles["type-selector__card"]}
-        onClick={() => onSelect("landing-page")}
+        onClick={() => onSelect(GenerationType.LANDING_PAGE)}
       >
         <div className={styles["type-selector__card__icon"]}>
           <AtomsIconSvg name="landing" width="40px" height="40px" />
