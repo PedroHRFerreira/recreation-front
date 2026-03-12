@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { GenerationType } from "@/enum/create.enum";
 import styles from "./styles.module.scss";
 import AtomsText from "@/components/Text/Index";
 import AtomsIconSvg from "@/components/IconSvg";
@@ -11,6 +12,8 @@ const TemplatesEdit = ({
   projectId: string | string[] | undefined;
 }) => {
   const router = useRouter();
+
+  const displayId = Array.isArray(projectId) ? projectId[0] : projectId;
 
   // Mock dos dados que virão da API no futuro
   const initialData: CreateFormData = {
@@ -34,39 +37,38 @@ const TemplatesEdit = ({
   };
 
   return (
-    <section className={styles["edit"]}>
+    <section className={styles.edit}>
       <div className={styles["edit__header"]}>
-        <div className={styles["edit__header-info"]}>
+        <div className={styles["edit__header-top"]}>
           <button
             className={styles["edit__back"]}
             onClick={() => router.back()}
           >
-            <AtomsIconSvg name="arrow-left" width="20px" height="20px" />
+            <AtomsIconSvg name="arrow-left" width="18px" height="18px" />
             <AtomsText fontSize="14px">Voltar</AtomsText>
           </button>
-
-          <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
-            Código do projeto: {projectId}
-          </AtomsText>
         </div>
 
-        <button className={styles["edit__export"]} onClick={handleExport}>
-          Exportar Projeto
-        </button>
-
-        <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
-          Editar Projeto
-        </AtomsText>
-        <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
-          Código do projeto: {projectId}
-        </AtomsText>
+        <div className={styles["edit__header-main"]}>
+          <div className={styles["edit__title-group"]}>
+            <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
+              Editar Projeto
+            </AtomsText>
+            <AtomsText fontSize="14px" color="var(--text-tertiary)">
+              Código do projeto: {displayId ?? "Carregando..."}
+            </AtomsText>
+          </div>
+          <button className={styles["edit__export"]} onClick={handleExport}>
+            Exportar Projeto
+          </button>
+        </div>
       </div>
 
       <CreateForm
         isEdit={true}
         initialData={initialData}
         onGenerate={handleUpdate}
-        generationType="landing-page"
+        generationType={GenerationType.LANDING_PAGE}
       />
     </section>
   );

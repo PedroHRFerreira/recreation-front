@@ -6,9 +6,11 @@ export default function EditPage() {
   const router = useRouter();
   const { id } = router.query;
 
+  const projectId = Array.isArray(id) ? id[0] : id;
+
   return (
     <RootLayout>
-      <TemplateEdit projectId={id} />
+      <TemplateEdit projectId={projectId} />
     </RootLayout>
   );
 }
