@@ -27,7 +27,7 @@ const TemplatesEdit = ({ projectId }: { projectId: string }) => {
   };
 
   return (
-    <section className={styles.edit}>
+    <section className={styles["edit"]}>
       <header className={styles["edit__header"]}>
         <div className={styles["edit__header-top"]}>
           <button
