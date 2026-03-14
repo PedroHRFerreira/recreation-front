@@ -12,10 +12,8 @@ const TemplatesEdit = ({
   projectId: string | string[] | undefined;
 }) => {
   const router = useRouter();
-
   const displayId = Array.isArray(projectId) ? projectId[0] : projectId;
 
-  // Mock dos dados que virão da API no futuro
   const initialData: CreateFormData = {
     name: "Projeto Existente",
     businessType: "E-commerce",
@@ -26,19 +24,16 @@ const TemplatesEdit = ({
     sections: ["hero", "about"],
   };
 
-  const handleExport = () => {
-    console.log("Exportando projeto:", projectId);
-  };
+  const handleExport = () => console.log("Exportando:", displayId);
 
   const handleUpdate = (data: CreateFormData) => {
-    console.log("Atualizando projeto:", projectId, data);
-    // Aqui faremos o PUT depois
+    console.log("Atualizando:", displayId, data);
     router.push("/");
   };
 
   return (
     <section className={styles.edit}>
-      <div className={styles["edit__header"]}>
+      <header className={styles["edit__header"]}>
         <div className={styles["edit__header-top"]}>
           <button
             className={styles["edit__back"]}
@@ -47,8 +42,11 @@ const TemplatesEdit = ({
             <AtomsIconSvg name="arrow-left" width="18px" height="18px" />
             <AtomsText fontSize="14px">Voltar</AtomsText>
           </button>
-        </div>
 
+          <button className={styles["edit__export"]} onClick={handleExport}>
+            Exportar Projeto
+          </button>
+        </div>
         <div className={styles["edit__header-main"]}>
           <div className={styles["edit__title-group"]}>
             <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
@@ -58,11 +56,8 @@ const TemplatesEdit = ({
               Código do projeto: {displayId ?? "Carregando..."}
             </AtomsText>
           </div>
-          <button className={styles["edit__export"]} onClick={handleExport}>
-            Exportar Projeto
-          </button>
         </div>
-      </div>
+      </header>
 
       <CreateForm
         isEdit={true}
