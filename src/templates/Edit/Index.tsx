@@ -6,13 +6,8 @@ import AtomsIconSvg from "@/components/IconSvg";
 import CreateForm from "@/components/CreateForm/Index";
 import type { CreateFormData } from "../Create/Create.types";
 
-const TemplatesEdit = ({
-  projectId,
-}: {
-  projectId: string | string[] | undefined;
-}) => {
+const TemplatesEdit = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
-  const displayId = Array.isArray(projectId) ? projectId[0] : projectId;
 
   const initialData: CreateFormData = {
     name: "Projeto Existente",
@@ -24,10 +19,10 @@ const TemplatesEdit = ({
     sections: ["hero", "about"],
   };
 
-  const handleExport = () => console.log("Exportando:", displayId);
+  const handleExport = () => console.log("Exportando:", projectId);
 
   const handleUpdate = (data: CreateFormData) => {
-    console.log("Atualizando:", displayId, data);
+    console.log("Atualizando:", projectId, data);
     router.push("/");
   };
 
@@ -53,7 +48,7 @@ const TemplatesEdit = ({
               Editar Projeto
             </AtomsText>
             <AtomsText fontSize="14px" color="var(--text-tertiary)">
-              Código do projeto: {displayId ?? "Carregando..."}
+              Código do projeto: {projectId ?? "Carregando..."}
             </AtomsText>
           </div>
         </div>
