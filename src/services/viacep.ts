@@ -1,5 +1,3 @@
-import { error } from "console";
-
 export const getAddressByCep = async (cep: string) => {
   const cleanCep = cep.replace(/\D/g, "");
 
