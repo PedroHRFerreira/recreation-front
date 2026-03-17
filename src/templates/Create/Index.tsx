@@ -5,10 +5,12 @@ import AtomsText from "@/components/Text/Index";
 import AtomsIconSvg from "@/components/IconSvg";
 import TypeSelector from "@/components/TypeSelector/Index";
 import CreateForm from "@/components/CreateForm/Index";
-import type { GenerationType, CreateFormData } from "./Create.types";
+import type { GenerationTypeOrNull, CreateFormData } from "./Create.types";
+import { GenerationType } from "@/enum/create.enum";
 
 const TemplatesCreate = () => {
-  const [generationType, setGenerationType] = useState<GenerationType>(null);
+  const [generationType, setGenerationType] =
+    useState<GenerationTypeOrNull>(null);
   const router = useRouter();
 
   const handleGenerate = (data: CreateFormData) => {
@@ -47,7 +49,7 @@ const TemplatesCreate = () => {
         <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
           {!generationType
             ? "O que você deseja criar?"
-            : generationType === "design"
+            : generationType === GenerationType.DESIGN
               ? "Criar Design"
               : "Criar Landing Page"}
         </AtomsText>

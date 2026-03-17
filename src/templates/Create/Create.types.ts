@@ -1,4 +1,7 @@
-export type GenerationType = "design" | "landing-page" | null;
+import { GenerationType } from "@/enum/create.enum";
+
+export type { GenerationType };
+export type GenerationTypeOrNull = GenerationType | null;
 
 export interface CreateFormData {
   name: string;
