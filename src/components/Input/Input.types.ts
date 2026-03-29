@@ -6,4 +6,6 @@ export interface InputTypes {
   onInput?: (value: string) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  variant?: "primary" | "secondary";
+  onBlur?: () => void;
 }
