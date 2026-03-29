@@ -1,18 +1,14 @@
 import { useRouter } from "next/router";
+import { GenerationType } from "@/enum/create.enum";
 import styles from "./styles.module.scss";
 import AtomsText from "@/components/Text/Index";
 import AtomsIconSvg from "@/components/IconSvg";
 import CreateForm from "@/components/CreateForm/Index";
 import type { CreateFormData } from "../Create/Create.types";
 
-const TemplatesEdit = ({
-  projectId,
-}: {
-  projectId: string | string[] | undefined;
-}) => {
+const TemplatesEdit = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
 
-  // Mock dos dados que virão da API no futuro
   const initialData: CreateFormData = {
     name: "Projeto Existente",
     businessType: "E-commerce",
@@ -23,35 +19,46 @@ const TemplatesEdit = ({
     sections: ["hero", "about"],
   };
 
+  const handleExport = () => console.log("Exportando:", projectId);
+
   const handleUpdate = (data: CreateFormData) => {
-    console.log("Atualizando projeto:", projectId, data);
-    // Aqui faremos o PUT depois
+    console.log("Atualizando:", projectId, data);
     router.push("/");
   };
 
   return (
     <section className={styles["edit"]}>
-      <div className={styles["edit__header"]}>
-        <button className={styles["edit__back"]} onClick={() => router.back()}>
-          <AtomsIconSvg name="arrow-left" width="20px" height="20px" />
-          <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
-            Voltar
-          </AtomsText>
-        </button>
+      <header className={styles["edit__header"]}>
+        <div className={styles["edit__header-top"]}>
+          <button
+            className={styles["edit__back"]}
+            onClick={() => router.back()}
+          >
+            <AtomsIconSvg name="arrow-left" width="18px" height="18px" />
+            <AtomsText fontSize="14px">Voltar</AtomsText>
+          </button>
 
-        <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
-          Editar Projeto
-        </AtomsText>
-        <AtomsText fontSize="14px" color="rgba(255,255,255,0.6)">
-          Código do projeto: {projectId}
-        </AtomsText>
-      </div>
+          <button className={styles["edit__export"]} onClick={handleExport}>
+            Exportar Projeto
+          </button>
+        </div>
+        <div className={styles["edit__header-main"]}>
+          <div className={styles["edit__title-group"]}>
+            <AtomsText fontSize="28px" fontWeight="bold" color="#fff">
+              Editar Projeto
+            </AtomsText>
+            <AtomsText fontSize="14px" color="var(--text-tertiary)">
+              Código do projeto: {projectId ?? "Carregando..."}
+            </AtomsText>
+          </div>
+        </div>
+      </header>
 
       <CreateForm
         isEdit={true}
         initialData={initialData}
         onGenerate={handleUpdate}
-        generationType="landing-page"
+        generationType={GenerationType.LANDING_PAGE}
       />
     </section>
   );

@@ -14,16 +14,14 @@
       left: 10px;
       pointer-events: none;
 
-      background:
-        radial-gradient(circle at 80% 20%, #1a0505 0%, #0a0202 50%),
-        radial-gradient(circle at 20% 80%, #150404 0%, #0a0202 100%);
+      background: var(--bg-gradient-1), var(--bg-gradient-2);
 
-      border-color: rgba(255, 61, 127, 0.8);
-      background-color: rgba(26, 5, 5, 0.5);
-      box-shadow: 0 0 12px rgba(255, 61, 127, 0.3);
+      border-color: var(--primary-alpha-80);
+      background-color: var(--input-bg-focus);
+      box-shadow: var(--shadow-primary-sm);
 
       padding: 0 12px;
-      color: rgba(255, 61, 127, 0.8);
+      color: var(--primary-alpha-80);
       transition: all 0.2s ease;
     }
 
@@ -34,36 +32,36 @@
       border-radius: 8px;
       outline: none;
 
-      background-color: rgba(26, 5, 5, 0.3);
-      border: 1px solid rgba(255, 61, 127, 0.3);
-      color: rgba(255, 255, 255, 0.9);
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-accent);
+      color: var(--text-secondary);
       transition: all 0.3s ease;
 
       &:-webkit-autofill,
       &:-webkit-autofill:hover,
       &:-webkit-autofill:focus,
       &:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 1000px rgba(26, 5, 5, 0.95) inset !important;
-        -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+        -webkit-box-shadow: 0 0 0 1000px var(--bg-elevated) inset !important;
+        -webkit-text-fill-color: var(--text-secondary) !important;
         transition: background-color 5000s ease-in-out 0s;
-        caret-color: rgba(255, 255, 255, 0.9);
+        caret-color: var(--text-secondary);
       }
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--text-placeholder);
       }
 
       &:focus {
-        border-color: rgba(255, 61, 127, 0.8);
-        background-color: rgba(26, 5, 5, 0.5);
-        box-shadow: 0 0 12px rgba(255, 61, 127, 0.3);
+        border-color: var(--primary-alpha-80);
+        background-color: var(--input-bg-focus);
+        box-shadow: var(--shadow-primary-sm);
       }
 
       &:disabled {
-        background-color: rgba(0, 0, 0, 0.54);
+        background-color: var(--input-bg-disabled);
         cursor: not-allowed;
-        color: rgba(153, 153, 153, 0.6);
-        border-color: rgba(255, 61, 127, 0.1);
+        color: var(--text-disabled);
+        border-color: var(--primary-alpha-10);
       }
     }
 
@@ -77,11 +75,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(255, 61, 127, 0.6);
+      color: var(--primary-alpha-60);
       transition: all 0.3s ease;
 
       &:hover:not(:disabled) {
-        color: rgba(255, 61, 127, 0.9);
+        color: var(--color-primary);
       }
 
       &:disabled {
