@@ -22,7 +22,7 @@ const Input: React.FC<InputTypes> = ({
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value;
+    const val = e.target.value;
 
     setInputValue(val);
     if (onInput) onInput(val);
