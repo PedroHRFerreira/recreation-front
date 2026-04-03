@@ -2,6 +2,35 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  
+  &--secondary {
+    .input_container {
+      &__input {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid var(--border-accent) !important;
+        border-radius: 12px !important;
+        padding: 12px !important;
+        color: var(--text-primary);
+        transition: all 0.2s ease;
+
+        &:focus {
+          border-color: var(--color-primary) !important;
+          background-color: rgba(255, 255, 255, 0.05) !important;
+          box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          background-color: transparent !important;
+          cursor: not-allowed;
+        }
+      }
+
+      &__label {
+        display: none;
+      }
+    }
+  }
 
   &_container {
     position: relative;
@@ -13,13 +42,10 @@
       top: -10px;
       left: 10px;
       pointer-events: none;
-
       background: var(--bg-gradient-1), var(--bg-gradient-2);
-
       border-color: var(--primary-alpha-80);
       background-color: var(--input-bg-focus);
       box-shadow: var(--shadow-primary-sm);
-
       padding: 0 12px;
       color: var(--primary-alpha-80);
       transition: all 0.2s ease;
@@ -31,20 +57,14 @@
       padding-right: 45px;
       border-radius: 8px;
       outline: none;
-
       background-color: var(--input-bg);
       border: 1px solid var(--border-accent);
       color: var(--text-secondary);
       transition: all 0.3s ease;
 
-      &:-webkit-autofill,
-      &:-webkit-autofill:hover,
-      &:-webkit-autofill:focus,
-      &:-webkit-autofill:active {
+      &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 1000px var(--bg-elevated) inset !important;
         -webkit-text-fill-color: var(--text-secondary) !important;
-        transition: background-color 5000s ease-in-out 0s;
-        caret-color: var(--text-secondary);
       }
 
       &::placeholder {
@@ -80,11 +100,6 @@
 
       &:hover:not(:disabled) {
         color: var(--color-primary);
-      }
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
       }
     }
   }
