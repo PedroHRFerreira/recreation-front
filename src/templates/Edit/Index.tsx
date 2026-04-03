@@ -5,11 +5,13 @@ import AtomsText from "@/components/Text/Index";
 import AtomsIconSvg from "@/components/IconSvg";
 import CreateForm from "@/components/CreateForm/Index";
 import type { CreateFormData } from "../Create/Create.types";
+import { getProjectById } from "@/store/services/projects";
 
 const TemplatesEdit = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
+  const project = getProjectById(projectId);
 
-  const initialData: CreateFormData = {
+  const initialData: CreateFormData = project?.formData ?? {
     name: "Projeto Existente",
     businessType: "E-commerce",
     description: "Landing page de teste",
