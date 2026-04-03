@@ -1,7 +1,8 @@
-import { useState } from "react";
 import styles from "./styles.module.scss";
 import { SidebarFilter } from "./Sidebar.types";
 import AtomsText from "../Text/Index";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setSelectedStatus, setSelectedType } from "@/store/slices/uiSlice";
 
 const sidebarTypes: SidebarFilter[] = [
   { label: "Todos", value: "todos" },
@@ -10,8 +11,9 @@ const sidebarTypes: SidebarFilter[] = [
 ];
 
 const Sidebar = () => {
-  const [selectedType, setSelectedType] = useState("todos");
-  const [status, setStatus] = useState<"ativo" | "desativo">("ativo");
+  const dispatch = useAppDispatch();
+  const selectedType = useAppSelector((state) => state.ui.selectedType);
+  const status = useAppSelector((state) => state.ui.selectedStatus);
 
   return (
     <aside className={styles.sidebar}>
@@ -29,7 +31,7 @@ const Sidebar = () => {
             <li
               key={type.value}
               className={`${styles.sidebar__item} ${selectedType === type.value ? styles["sidebar__item--active"] : ""}`}
-              onClick={() => setSelectedType(type.value)}
+              onClick={() => dispatch(setSelectedType(type.value))}
             >
               <AtomsText
                 fontSize="14px"
@@ -56,7 +58,7 @@ const Sidebar = () => {
         <ul className={styles.sidebar__list}>
           <li
             className={`${styles.sidebar__item} ${status === "ativo" ? styles["sidebar__item--active"] : ""}`}
-            onClick={() => setStatus("ativo")}
+            onClick={() => dispatch(setSelectedStatus("ativo"))}
           >
             <span
               className={`${styles.sidebar__dot} ${styles["sidebar__dot--ativo"]}`}
@@ -72,7 +74,7 @@ const Sidebar = () => {
           </li>
           <li
             className={`${styles.sidebar__item} ${status === "desativo" ? styles["sidebar__item--active"] : ""}`}
-            onClick={() => setStatus("desativo")}
+            onClick={() => dispatch(setSelectedStatus("desativo"))}
           >
             <span
               className={`${styles.sidebar__dot} ${styles["sidebar__dot--desativo"]}`}
