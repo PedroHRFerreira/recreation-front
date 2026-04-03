@@ -1,8 +1,9 @@
-import type { IAddress } from "@/types/Address";
+import { apiService } from "@/lib/api";
+import type { Address } from "../types/address";
 
 export async function fetchAddressByCep(
   cep: string,
-): Promise<IAddress | null> {
+): Promise<Address | null> {
   const cleanCep = cep.replace(/\D/g, "");
 
   if (cleanCep.length !== 8) {
@@ -10,8 +11,11 @@ export async function fetchAddressByCep(
   }
 
   try {
-    const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
-    const data = await response.json();
+    const data = await apiService.get<
+      Address & {
+        erro?: boolean;
+      }
+    >(`https://viacep.com.br/ws/${cleanCep}/json/`);
 
     if (data.erro) {
       return null;

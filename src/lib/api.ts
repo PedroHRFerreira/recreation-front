@@ -11,8 +11,9 @@ export async function api<T>(
   options?: RequestOptions
 ): Promise<T> {
   const { method = "GET", body, headers } = options || {};
+  const url = endpoint.startsWith("http") ? endpoint : `${env.baseUrl}${endpoint}`;
 
-  const response = await fetch(`${env.baseUrl}${endpoint}`, {
+  const response = await fetch(url, {
     method,
     headers: {
       "Content-Type": "application/json",

@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
-import { fetchAddressByCep } from "@/stores/address/useAddress";
 import AtomsText from "@/components/Text/Index";
 import AtomsButton from "@/components/Button/index";
 import MoleculesInput from "@/components/Input/Index";
 import AtomsIconSvg from "@/components/IconSvg/index";
 import { validationEmail } from "@/hooks/useValidate";
+import { fetchAddressByCep } from "@/store/services/address";
 import styles from "./styles.module.scss";
 
 const TemplatesProfile = () => {
   const router = useRouter();
+  const [isFetchingAddress, setIsFetchingAddress] = useState(false);
   const [perfil, setPerfil] = useState({
     nome: "Joao Pedro",
     email: "joao@exemplo.com",
@@ -33,8 +34,7 @@ const TemplatesProfile = () => {
   };
 
   const updateNumberField = (value: string) => {
-    const numericValue = value.replace(/\D/g, "");
-    updateField("numero", numericValue);
+    updateField("numero", value.replace(/\D/g, ""));
   };
 
   const validateProfile = () => {
@@ -142,6 +142,8 @@ const TemplatesProfile = () => {
   };
 
   const handleZipCodeBlur = async () => {
+    setIsFetchingAddress(true);
+
     try {
       const data = await fetchAddressByCep(perfil.cep);
 
@@ -152,20 +154,26 @@ const TemplatesProfile = () => {
           localidade: "",
           uf: "",
         }));
+
         if (perfil.cep.trim()) {
           toast.error("CEP não encontrado.");
         }
+
         return;
       }
 
       setPerfil((prev) => ({
         ...prev,
+        cep: data.cep,
         logradouro: data.logradouro,
         localidade: data.localidade,
         uf: data.uf,
       }));
     } catch (error) {
       console.error("Erro ao buscar CEP:", error);
+      toast.error("Não foi possível buscar o endereço.");
+    } finally {
+      setIsFetchingAddress(false);
     }
   };
 
@@ -317,6 +325,7 @@ const TemplatesProfile = () => {
               <MoleculesInput
                 value={perfil.logradouro}
                 variant="secondary"
+                disabled={isFetchingAddress}
                 onInput={(v) => updateField("logradouro", v)}
               />
             </div>
