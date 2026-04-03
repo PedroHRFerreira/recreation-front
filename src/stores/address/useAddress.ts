@@ -1,16 +1,21 @@
-import { IAddress } from "@/types/Address";
+import type { IAddress } from "@/types/Address";
 
-export const getAddressByCep = async (
+export async function fetchAddressByCep(
   cep: string,
-): Promise<IAddress | null> => {
+): Promise<IAddress | null> {
   const cleanCep = cep.replace(/\D/g, "");
-  if (cleanCep.length !== 8) return null;
+
+  if (cleanCep.length !== 8) {
+    return null;
+  }
 
   try {
     const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
     const data = await response.json();
 
-    if (data.erro) return null;
+    if (data.erro) {
+      return null;
+    }
 
     return {
       cep: data.cep,
@@ -23,4 +28,4 @@ export const getAddressByCep = async (
     console.error("Erro ao buscar CEP:", error);
     return null;
   }
-};
+}

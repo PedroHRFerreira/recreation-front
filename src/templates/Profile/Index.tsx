@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Para o botão voltar
-import { getAddressByCep } from "@/stores/addressStore";
+import { useRouter } from "next/router";
+import { Toaster, toast } from "react-hot-toast";
+import { fetchAddressByCep } from "@/stores/address/useAddress";
 import AtomsText from "@/components/Text/Index";
 import AtomsButton from "@/components/Button/index";
 import MoleculesInput from "@/components/Input/Index";
 import AtomsIconSvg from "@/components/IconSvg/index";
+import { validationEmail } from "@/hooks/useValidate";
 import styles from "./styles.module.scss";
 
 const TemplatesProfile = () => {
@@ -30,25 +32,157 @@ const TemplatesProfile = () => {
     setPerfil((prev) => ({ ...prev, [field]: value }));
   };
 
+  const updateNumberField = (value: string) => {
+    const numericValue = value.replace(/\D/g, "");
+    updateField("numero", numericValue);
+  };
+
+  const validateProfile = () => {
+    if (!perfil.nome.trim()) {
+      toast.error("Nome completo é obrigatório.");
+      return false;
+    }
+
+    if (!perfil.email.trim()) {
+      toast.error("Email é obrigatório.");
+      return false;
+    }
+
+    if (!validationEmail(perfil.email)) {
+      toast.error("Email inválido.");
+      return false;
+    }
+
+    if (!perfil.profissao.trim()) {
+      toast.error("Profissão é obrigatória.");
+      return false;
+    }
+
+    if (!perfil.bio.trim()) {
+      toast.error("Bio é obrigatória.");
+      return false;
+    }
+
+    if (!perfil.telefone.trim()) {
+      toast.error("Telefone é obrigatório.");
+      return false;
+    }
+
+    if (!/^\d{10,11}$/.test(perfil.telefone.replace(/\D/g, ""))) {
+      toast.error("Telefone inválido.");
+      return false;
+    }
+
+    if (!perfil.dataNascimento) {
+      toast.error("Data de nascimento é obrigatória.");
+      return false;
+    }
+
+    if (!perfil.cep.trim()) {
+      toast.error("CEP é obrigatório.");
+      return false;
+    }
+
+    if (!/^\d{8}$/.test(perfil.cep.replace(/\D/g, ""))) {
+      toast.error("CEP inválido.");
+      return false;
+    }
+
+    if (!perfil.numero.trim()) {
+      toast.error("Número é obrigatório.");
+      return false;
+    }
+
+    if (!/^\d+$/.test(perfil.numero)) {
+      toast.error("O número do endereço deve conter apenas dígitos.");
+      return false;
+    }
+
+    if (!perfil.logradouro.trim()) {
+      toast.error("Logradouro é obrigatório.");
+      return false;
+    }
+
+    if (!perfil.localidade.trim()) {
+      toast.error("Cidade é obrigatória.");
+      return false;
+    }
+
+    if (!perfil.uf.trim()) {
+      toast.error("UF é obrigatória.");
+      return false;
+    }
+
+    if (!perfil.senhaAtual.trim()) {
+      toast.error("Senha atual é obrigatória.");
+      return false;
+    }
+
+    if (!perfil.novaSenha.trim()) {
+      toast.error("Nova senha é obrigatória.");
+      return false;
+    }
+
+    if (perfil.novaSenha.length < 6) {
+      toast.error("A nova senha deve ter pelo menos 6 caracteres.");
+      return false;
+    }
+
+    if (!perfil.confirmarSenha.trim()) {
+      toast.error("Confirmação de senha é obrigatória.");
+      return false;
+    }
+
+    if (perfil.novaSenha !== perfil.confirmarSenha) {
+      toast.error("A confirmação de senha não confere.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleZipCodeBlur = async () => {
-    const data = await getAddressByCep(perfil.cep);
-    if (data) {
+    try {
+      const data = await fetchAddressByCep(perfil.cep);
+
+      if (!data) {
+        setPerfil((prev) => ({
+          ...prev,
+          logradouro: "",
+          localidade: "",
+          uf: "",
+        }));
+        if (perfil.cep.trim()) {
+          toast.error("CEP não encontrado.");
+        }
+        return;
+      }
+
       setPerfil((prev) => ({
         ...prev,
         logradouro: data.logradouro,
         localidade: data.localidade,
         uf: data.uf,
       }));
+    } catch (error) {
+      console.error("Erro ao buscar CEP:", error);
     }
   };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateProfile()) {
+      return;
+    }
+
     console.log("Dados salvos:", perfil);
+    toast.success("Perfil salvo com sucesso.");
   };
 
   return (
     <section className={styles.profile}>
+      <Toaster />
       <header className={styles.profile__header}>
         <div className={styles.profile__header_info}>
           <div className={styles.profile__title_container}>
@@ -171,7 +305,7 @@ const TemplatesProfile = () => {
               <MoleculesInput
                 value={perfil.numero}
                 variant="secondary"
-                onInput={(v) => updateField("numero", v)}
+                onInput={updateNumberField}
               />
             </div>
             <div
