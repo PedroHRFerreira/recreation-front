@@ -21,6 +21,7 @@ const TemplatesProfile = () => {
     dataNascimento: "",
     cep: "",
     logradouro: "",
+    bairro: "",
     numero: "",
     localidade: "",
     uf: "",
@@ -103,6 +104,11 @@ const TemplatesProfile = () => {
       return false;
     }
 
+    if (!perfil.bairro.trim()) {
+      toast.error("Bairro é obrigatório.");
+      return false;
+    }
+
     if (!perfil.localidade.trim()) {
       toast.error("Cidade é obrigatória.");
       return false;
@@ -151,6 +157,7 @@ const TemplatesProfile = () => {
         setPerfil((prev) => ({
           ...prev,
           logradouro: "",
+          bairro: "",
           localidade: "",
           uf: "",
         }));
@@ -166,6 +173,7 @@ const TemplatesProfile = () => {
         ...prev,
         cep: data.cep,
         logradouro: data.logradouro,
+        bairro: data.bairro,
         localidade: data.localidade,
         uf: data.uf,
       }));
@@ -327,6 +335,16 @@ const TemplatesProfile = () => {
                 variant="secondary"
                 disabled={isFetchingAddress}
                 onInput={(v) => updateField("logradouro", v)}
+              />
+            </div>
+            <div className={styles.profile__field}>
+              <AtomsText fontSize="14px" color="var(--text-tertiary)">
+                Bairro
+              </AtomsText>
+              <MoleculesInput
+                value={perfil.bairro}
+                variant="secondary"
+                onInput={(v) => updateField("bairro", v)}
               />
             </div>
             <div className={styles.profile__field}>
