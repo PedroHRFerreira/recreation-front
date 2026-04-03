@@ -1,7 +1,6 @@
-export interface IAddress {
+export interface AddressFields {
   logradouro: string;
   bairro: string;
   localidade: string;
   uf: string;
-  cep: string;
 }

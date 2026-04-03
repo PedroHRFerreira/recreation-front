@@ -1,26 +1,26 @@
-import { IAddress } from "@/types/Address";
+import axios from "axios";
 
-export const getAddressByCep = async (
-  cep: string,
-): Promise<IAddress | null> => {
-  const cleanCep = cep.replace(/\D/g, "");
-  if (cleanCep.length !== 8) return null;
-
+export const getAddressByCep = async (cep: string) => {
   try {
-    const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
-    const data = await response.json();
+    const cleanCep = cep.replace(/\D/g, "");
+    if (cleanCep.length !== 8) return null;
 
-    if (data.erro) return null;
+    const response = await axios({
+      method: "get",
+      url: `https://viacep.com.br/ws/${cleanCep}/json/`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    return {
-      cep: data.cep,
-      logradouro: data.logradouro,
-      bairro: data.bairro,
-      localidade: data.localidade,
-      uf: data.uf,
-    };
+    if (response.data.erro) {
+      console.error("CEP não encontrado");
+      return null;
+    }
+
+    return response.data;
   } catch (error) {
-    console.error("Erro ao buscar CEP:", error);
+    console.error("Erro detalhado na busca de CEP:", error);
     return null;
   }
 };
