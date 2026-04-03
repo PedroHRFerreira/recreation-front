@@ -1,0 +1,107 @@
+.profile {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  .profile__header {
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+
+    .profile__header_info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .profile__title_container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-left: -0.5rem; // Ajuste para o botão não ficar muito longe
+    }
+  }
+
+  .profile__back_button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+    color: var(--color-primary);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .profile__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .profile__card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    padding: 2rem;
+    border-radius: 12px;
+  }
+
+  .profile__section_header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    color: var(--color-primary);
+  }
+
+  .profile__grid_profile,
+  .profile__grid,
+  .profile__grid_two,
+  .profile__grid_address {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .profile__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .profile__textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+  }
+
+  .profile__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-accent);
+  }
+}

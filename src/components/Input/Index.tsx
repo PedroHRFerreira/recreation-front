@@ -11,6 +11,8 @@ const Input: React.FC<InputTypes> = ({
   onInput,
   onKeyDown,
   disabled = false,
+  onBlur,
+  variant = "primary",
 }) => {
   const [inputValue, setInputValue] = useState(value);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +35,7 @@ const Input: React.FC<InputTypes> = ({
   };
 
   return (
-    <div className={styles.input}>
+    <div className={`${styles.input} ${styles["input--" + variant]}`}>
       <div className={styles.input_container}>
         {label && (
           <label className={styles.input_container__label}>{label}</label>
@@ -46,6 +48,7 @@ const Input: React.FC<InputTypes> = ({
           disabled={disabled}
           onChange={handleChange}
           onKeyDown={onKeyDown}
+          onBlur={onBlur}
         />
         {isPasswordType && (
           <button
