@@ -1,9 +1,7 @@
 import { apiService } from "@/lib/api";
-import type { Address } from "../types/address";
+import type { Address, ViaCepResponse } from "../types/address";
 
-export async function fetchAddressByCep(
-  cep: string,
-): Promise<Address | null> {
+export async function fetchAddressByCep(cep: string): Promise<Address | null> {
   const cleanCep = cep.replace(/\D/g, "");
 
   if (cleanCep.length !== 8) {
@@ -11,22 +9,20 @@ export async function fetchAddressByCep(
   }
 
   try {
-    const data = await apiService.get<
-      Address & {
-        erro?: boolean;
-      }
-    >(`https://viacep.com.br/ws/${cleanCep}/json/`);
+    const data = await apiService.get<ViaCepResponse>(
+      `https://viacep.com.br/ws/${cleanCep}/json/`,
+    );
 
     if (data.erro) {
       return null;
     }
 
     return {
-      cep: data.cep,
-      logradouro: data.logradouro,
-      bairro: data.bairro,
-      localidade: data.localidade,
-      uf: data.uf,
+      postalCode: data.cep,
+      street: data.logradouro,
+      neighborhood: data.bairro,
+      city: data.localidade,
+      state: data.uf,
     };
   } catch (error) {
     console.error("Erro ao buscar CEP:", error);

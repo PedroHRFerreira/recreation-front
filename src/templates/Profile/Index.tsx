@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import AtomsText from "@/components/Text/Index";
@@ -7,139 +6,131 @@ import MoleculesInput from "@/components/Input/Index";
 import AtomsIconSvg from "@/components/IconSvg/index";
 import { validationEmail } from "@/hooks/useValidate";
 import { fetchAddressByCep } from "@/store/services/address";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  clearAddress,
+  setAddressFromPostalCode,
+  setAddressLoading,
+  setProfileField,
+} from "@/store/slices/profileSlice";
 import styles from "./styles.module.scss";
 
 const TemplatesProfile = () => {
   const router = useRouter();
-  const [isFetchingAddress, setIsFetchingAddress] = useState(false);
-  const [perfil, setPerfil] = useState({
-    nome: "Joao Pedro",
-    email: "joao@exemplo.com",
-    profissao: "Desenvolvedor",
-    bio: "",
-    telefone: "",
-    dataNascimento: "",
-    cep: "",
-    logradouro: "",
-    bairro: "",
-    numero: "",
-    localidade: "",
-    uf: "",
-    senhaAtual: "",
-    novaSenha: "",
-    confirmarSenha: "",
-  });
-
-  const updateField = (field: keyof typeof perfil, value: string) => {
-    setPerfil((prev) => ({ ...prev, [field]: value }));
-  };
+  const dispatch = useAppDispatch();
+  const profile = useAppSelector((state) => state.profile);
 
   const updateNumberField = (value: string) => {
-    updateField("numero", value.replace(/\D/g, ""));
+    dispatch(
+      setProfileField({
+        field: "number",
+        value: value.replace(/\D/g, ""),
+      }),
+    );
   };
 
   const validateProfile = () => {
-    if (!perfil.nome.trim()) {
+    if (!profile.fullName.trim()) {
       toast.error("Nome completo é obrigatório.");
       return false;
     }
 
-    if (!perfil.email.trim()) {
+    if (!profile.email.trim()) {
       toast.error("Email é obrigatório.");
       return false;
     }
 
-    if (!validationEmail(perfil.email)) {
+    if (!validationEmail(profile.email)) {
       toast.error("Email inválido.");
       return false;
     }
 
-    if (!perfil.profissao.trim()) {
+    if (!profile.profession.trim()) {
       toast.error("Profissão é obrigatória.");
       return false;
     }
 
-    if (!perfil.bio.trim()) {
+    if (!profile.bio.trim()) {
       toast.error("Bio é obrigatória.");
       return false;
     }
 
-    if (!perfil.telefone.trim()) {
+    if (!profile.phone.trim()) {
       toast.error("Telefone é obrigatório.");
       return false;
     }
 
-    if (!/^\d{10,11}$/.test(perfil.telefone.replace(/\D/g, ""))) {
+    if (!/^\d{10,11}$/.test(profile.phone.replace(/\D/g, ""))) {
       toast.error("Telefone inválido.");
       return false;
     }
 
-    if (!perfil.dataNascimento) {
+    if (!profile.birthDate) {
       toast.error("Data de nascimento é obrigatória.");
       return false;
     }
 
-    if (!perfil.cep.trim()) {
+    if (!profile.postalCode.trim()) {
       toast.error("CEP é obrigatório.");
       return false;
     }
 
-    if (!/^\d{8}$/.test(perfil.cep.replace(/\D/g, ""))) {
+    if (!/^\d{8}$/.test(profile.postalCode.replace(/\D/g, ""))) {
       toast.error("CEP inválido.");
       return false;
     }
 
-    if (!perfil.numero.trim()) {
+    if (!profile.number.trim()) {
       toast.error("Número é obrigatório.");
       return false;
     }
 
-    if (!/^\d+$/.test(perfil.numero)) {
+    if (!/^\d+$/.test(profile.number)) {
       toast.error("O número do endereço deve conter apenas dígitos.");
       return false;
     }
 
-    if (!perfil.logradouro.trim()) {
+    if (!profile.street.trim()) {
       toast.error("Logradouro é obrigatório.");
       return false;
     }
 
-    if (!perfil.bairro.trim()) {
+    if (!profile.neighborhood.trim()) {
       toast.error("Bairro é obrigatório.");
       return false;
     }
 
-    if (!perfil.localidade.trim()) {
+    if (!profile.city.trim()) {
       toast.error("Cidade é obrigatória.");
       return false;
     }
 
-    if (!perfil.uf.trim()) {
+    if (!profile.state.trim()) {
       toast.error("UF é obrigatória.");
       return false;
     }
 
-    if (!perfil.senhaAtual.trim()) {
+    if (!profile.currentPassword.trim()) {
       toast.error("Senha atual é obrigatória.");
       return false;
     }
 
-    if (!perfil.novaSenha.trim()) {
+    if (!profile.newPassword.trim()) {
       toast.error("Nova senha é obrigatória.");
       return false;
     }
 
-    if (perfil.novaSenha.length < 6) {
+    if (profile.newPassword.length < 6) {
       toast.error("A nova senha deve ter pelo menos 6 caracteres.");
       return false;
     }
 
-    if (!perfil.confirmarSenha.trim()) {
+    if (!profile.confirmPassword.trim()) {
       toast.error("Confirmação de senha é obrigatória.");
       return false;
     }
 
-    if (perfil.novaSenha !== perfil.confirmarSenha) {
+    if (profile.newPassword !== profile.confirmPassword) {
       toast.error("A confirmação de senha não confere.");
       return false;
     }
@@ -148,40 +139,27 @@ const TemplatesProfile = () => {
   };
 
   const handleZipCodeBlur = async () => {
-    setIsFetchingAddress(true);
+    dispatch(setAddressLoading(true));
 
     try {
-      const data = await fetchAddressByCep(perfil.cep);
+      const data = await fetchAddressByCep(profile.postalCode);
 
       if (!data) {
-        setPerfil((prev) => ({
-          ...prev,
-          logradouro: "",
-          bairro: "",
-          localidade: "",
-          uf: "",
-        }));
+        dispatch(clearAddress());
 
-        if (perfil.cep.trim()) {
+        if (profile.postalCode.trim()) {
           toast.error("CEP não encontrado.");
         }
 
         return;
       }
 
-      setPerfil((prev) => ({
-        ...prev,
-        cep: data.cep,
-        logradouro: data.logradouro,
-        bairro: data.bairro,
-        localidade: data.localidade,
-        uf: data.uf,
-      }));
+      dispatch(setAddressFromPostalCode(data));
     } catch (error) {
       console.error("Erro ao buscar CEP:", error);
       toast.error("Não foi possível buscar o endereço.");
     } finally {
-      setIsFetchingAddress(false);
+      dispatch(setAddressLoading(false));
     }
   };
 
@@ -192,7 +170,7 @@ const TemplatesProfile = () => {
       return;
     }
 
-    console.log("Dados salvos:", perfil);
+    console.log("Dados salvos:", profile);
     toast.success("Perfil salvo com sucesso.");
   };
 
@@ -232,9 +210,11 @@ const TemplatesProfile = () => {
                 Nome Completo
               </AtomsText>
               <MoleculesInput
-                value={perfil.nome}
+                value={profile.fullName}
                 variant="secondary"
-                onInput={(v) => updateField("nome", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "fullName", value }))
+                }
               />
             </div>
             <div className={styles.profile__field}>
@@ -242,9 +222,11 @@ const TemplatesProfile = () => {
                 Profissão
               </AtomsText>
               <MoleculesInput
-                value={perfil.profissao}
+                value={profile.profession}
                 variant="secondary"
-                onInput={(v) => updateField("profissao", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "profession", value }))
+                }
               />
             </div>
             <div
@@ -255,8 +237,12 @@ const TemplatesProfile = () => {
               </AtomsText>
               <textarea
                 className={styles.profile__textarea}
-                value={perfil.bio}
-                onChange={(e) => updateField("bio", e.target.value)}
+                value={profile.bio}
+                onChange={(e) =>
+                  dispatch(
+                    setProfileField({ field: "bio", value: e.target.value }),
+                  )
+                }
                 placeholder="Conte um pouco sobre você..."
               />
             </div>
@@ -276,9 +262,11 @@ const TemplatesProfile = () => {
                 Telefone
               </AtomsText>
               <MoleculesInput
-                value={perfil.telefone}
+                value={profile.phone}
                 variant="secondary"
-                onInput={(v) => updateField("telefone", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "phone", value }))
+                }
               />
             </div>
             <div className={styles.profile__field}>
@@ -287,9 +275,11 @@ const TemplatesProfile = () => {
               </AtomsText>
               <MoleculesInput
                 type="date"
-                value={perfil.dataNascimento}
+                value={profile.birthDate}
                 variant="secondary"
-                onInput={(v) => updateField("dataNascimento", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "birthDate", value }))
+                }
               />
             </div>
           </div>
@@ -308,10 +298,12 @@ const TemplatesProfile = () => {
                 CEP
               </AtomsText>
               <MoleculesInput
-                value={perfil.cep}
+                value={profile.postalCode}
                 variant="secondary"
                 onBlur={handleZipCodeBlur}
-                onInput={(v) => updateField("cep", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "postalCode", value }))
+                }
               />
             </div>
             <div className={styles.profile__field}>
@@ -319,7 +311,7 @@ const TemplatesProfile = () => {
                 N°
               </AtomsText>
               <MoleculesInput
-                value={perfil.numero}
+                value={profile.number}
                 variant="secondary"
                 onInput={updateNumberField}
               />
@@ -331,10 +323,12 @@ const TemplatesProfile = () => {
                 Rua/Logradouro
               </AtomsText>
               <MoleculesInput
-                value={perfil.logradouro}
+                value={profile.street}
                 variant="secondary"
-                disabled={isFetchingAddress}
-                onInput={(v) => updateField("logradouro", v)}
+                disabled={profile.isFetchingAddress}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "street", value }))
+                }
               />
             </div>
             <div className={styles.profile__field}>
@@ -342,9 +336,11 @@ const TemplatesProfile = () => {
                 Bairro
               </AtomsText>
               <MoleculesInput
-                value={perfil.bairro}
+                value={profile.neighborhood}
                 variant="secondary"
-                onInput={(v) => updateField("bairro", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "neighborhood", value }))
+                }
               />
             </div>
             <div className={styles.profile__field}>
@@ -352,7 +348,7 @@ const TemplatesProfile = () => {
                 Cidade
               </AtomsText>
               <MoleculesInput
-                value={perfil.localidade}
+                value={profile.city}
                 variant="secondary"
                 disabled
               />
@@ -361,7 +357,11 @@ const TemplatesProfile = () => {
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 UF
               </AtomsText>
-              <MoleculesInput value={perfil.uf} variant="secondary" disabled />
+              <MoleculesInput
+                value={profile.state}
+                variant="secondary"
+                disabled
+              />
             </div>
           </div>
         </div>
@@ -381,7 +381,9 @@ const TemplatesProfile = () => {
               <MoleculesInput
                 type="password"
                 variant="secondary"
-                onInput={(v) => updateField("senhaAtual", v)}
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "currentPassword", value }))
+                }
               />
             </div>
             <div className={styles.profile__grid_two}>
@@ -389,21 +391,25 @@ const TemplatesProfile = () => {
                 <AtomsText fontSize="14px" color="var(--text-tertiary)">
                   Nova Senha
                 </AtomsText>
-                <MoleculesInput
-                  type="password"
-                  variant="secondary"
-                  onInput={(v) => updateField("novaSenha", v)}
-                />
+              <MoleculesInput
+                type="password"
+                variant="secondary"
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "newPassword", value }))
+                }
+              />
               </div>
               <div className={styles.profile__field}>
                 <AtomsText fontSize="14px" color="var(--text-tertiary)">
                   Confirmar Senha
                 </AtomsText>
-                <MoleculesInput
-                  type="password"
-                  variant="secondary"
-                  onInput={(v) => updateField("confirmarSenha", v)}
-                />
+              <MoleculesInput
+                type="password"
+                variant="secondary"
+                onInput={(value) =>
+                  dispatch(setProfileField({ field: "confirmPassword", value }))
+                }
+              />
               </div>
             </div>
           </div>
