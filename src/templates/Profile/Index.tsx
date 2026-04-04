@@ -175,14 +175,14 @@ const TemplatesProfile = () => {
   };
 
   return (
-    <section className={styles.profile}>
+    <section className={styles["profile"]}>
       <Toaster />
-      <header className={styles.profile__header}>
-        <div className={styles.profile__header_info}>
-          <div className={styles.profile__title_container}>
+      <header className={styles["profile__header"]}>
+        <div className={styles["profile__header_info"]}>
+          <div className={styles["profile__title_container"]}>
             <button
               type="button"
-              className={styles.profile__back_button}
+              className={styles["profile__back_button"]}
               onClick={() => router.push("/")}
             >
               <AtomsIconSvg name="arrow-left" width="24px" height="24px" />
@@ -202,10 +202,10 @@ const TemplatesProfile = () => {
         </div>
       </header>
 
-      <form className={styles.profile__form} onSubmit={handleSave}>
-        <div className={styles.profile__card}>
-          <div className={styles.profile__grid_profile}>
-            <div className={styles.profile__field}>
+      <form className={styles["profile__form"]} onSubmit={handleSave}>
+        <div className={styles["profile__card"]}>
+          <div className={styles["profile__grid_profile"]}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Nome Completo
               </AtomsText>
@@ -217,7 +217,7 @@ const TemplatesProfile = () => {
                 }
               />
             </div>
-            <div className={styles.profile__field}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Profissão
               </AtomsText>
@@ -230,13 +230,13 @@ const TemplatesProfile = () => {
               />
             </div>
             <div
-              className={`${styles.profile__field} ${styles["profile__field--full"]}`}
+              className={`${styles["profile__field"]} ${styles["profile__field--full"]}`}
             >
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Bio
               </AtomsText>
               <textarea
-                className={styles.profile__textarea}
+                className={styles["profile__textarea"]}
                 value={profile.bio}
                 onChange={(e) =>
                   dispatch(
@@ -249,15 +249,15 @@ const TemplatesProfile = () => {
           </div>
         </div>
 
-        <div className={styles.profile__card}>
-          <div className={styles.profile__section_header}>
+        <div className={styles["profile__card"]}>
+          <div className={styles["profile__section_header"]}>
             <AtomsIconSvg name="search" width="18px" height="18px" />
             <AtomsText fontSize="18px" fontWeight="bold">
               Contato e Dados
             </AtomsText>
           </div>
-          <div className={styles.profile__grid}>
-            <div className={styles.profile__field}>
+          <div className={styles["profile__grid"]}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Telefone
               </AtomsText>
@@ -269,7 +269,7 @@ const TemplatesProfile = () => {
                 }
               />
             </div>
-            <div className={styles.profile__field}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Data de Nascimento
               </AtomsText>
@@ -285,15 +285,15 @@ const TemplatesProfile = () => {
           </div>
         </div>
 
-        <div className={styles.profile__card}>
-          <div className={styles.profile__section_header}>
+        <div className={styles["profile__card"]}>
+          <div className={styles["profile__section_header"]}>
             <AtomsIconSvg name="landing" width="20px" height="20px" />
             <AtomsText fontSize="18px" fontWeight="bold">
               Endereço
             </AtomsText>
           </div>
-          <div className={styles.profile__grid_address}>
-            <div className={styles.profile__field}>
+          <div className={styles["profile__grid_address"]}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 CEP
               </AtomsText>
@@ -306,7 +306,7 @@ const TemplatesProfile = () => {
                 }
               />
             </div>
-            <div className={styles.profile__field}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 N°
               </AtomsText>
@@ -317,7 +317,7 @@ const TemplatesProfile = () => {
               />
             </div>
             <div
-              className={`${styles.profile__field} ${styles["profile__field--full"]}`}
+              className={`${styles["profile__field"]} ${styles["profile__field--full"]}`}
             >
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Rua/Logradouro
@@ -331,7 +331,7 @@ const TemplatesProfile = () => {
                 }
               />
             </div>
-            <div className={styles.profile__field}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Bairro
               </AtomsText>
@@ -343,7 +343,7 @@ const TemplatesProfile = () => {
                 }
               />
             </div>
-            <div className={styles.profile__field}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Cidade
               </AtomsText>
@@ -353,7 +353,7 @@ const TemplatesProfile = () => {
                 disabled
               />
             </div>
-            <div className={styles.profile__field}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 UF
               </AtomsText>
@@ -366,15 +366,15 @@ const TemplatesProfile = () => {
           </div>
         </div>
 
-        <div className={styles.profile__card}>
-          <div className={styles.profile__section_header}>
+        <div className={styles["profile__card"]}>
+          <div className={styles["profile__section_header"]}>
             <AtomsIconSvg name="eye" width="20px" height="20px" />
             <AtomsText fontSize="18px" fontWeight="bold">
               Segurança
             </AtomsText>
           </div>
-          <div className={styles.profile__grid}>
-            <div className={styles.profile__field}>
+          <div className={styles["profile__grid"]}>
+            <div className={styles["profile__field"]}>
               <AtomsText fontSize="14px" color="var(--text-tertiary)">
                 Senha Atual
               </AtomsText>
@@ -386,36 +386,38 @@ const TemplatesProfile = () => {
                 }
               />
             </div>
-            <div className={styles.profile__grid_two}>
-              <div className={styles.profile__field}>
+            <div className={styles["profile__grid_two"]}>
+              <div className={styles["profile__field"]}>
                 <AtomsText fontSize="14px" color="var(--text-tertiary)">
                   Nova Senha
                 </AtomsText>
-              <MoleculesInput
-                type="password"
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "newPassword", value }))
-                }
-              />
+                <MoleculesInput
+                  type="password"
+                  variant="secondary"
+                  onInput={(value) =>
+                    dispatch(setProfileField({ field: "newPassword", value }))
+                  }
+                />
               </div>
-              <div className={styles.profile__field}>
+              <div className={styles["profile__field"]}>
                 <AtomsText fontSize="14px" color="var(--text-tertiary)">
                   Confirmar Senha
                 </AtomsText>
-              <MoleculesInput
-                type="password"
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "confirmPassword", value }))
-                }
-              />
+                <MoleculesInput
+                  type="password"
+                  variant="secondary"
+                  onInput={(value) =>
+                    dispatch(
+                      setProfileField({ field: "confirmPassword", value }),
+                    )
+                  }
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className={styles.profile__footer}>
+        <div className={styles["profile__footer"]}>
           <AtomsButton type="submit" variant="primary">
             Salvar Alterações
           </AtomsButton>
