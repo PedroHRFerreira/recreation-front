@@ -1,248 +1,209 @@
-import { useRouter } from "next/router";
-import { Toaster, toast } from "react-hot-toast";
+import { useState, ChangeEvent, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { uploadUserAvatar, getAddressByCep } from "@/lib/userService";
 import AtomsText from "@/components/Text/Index";
 import AtomsButton from "@/components/Button/index";
 import MoleculesInput from "@/components/Input/Index";
 import AtomsIconSvg from "@/components/IconSvg/index";
-import { validationEmail } from "@/hooks/useValidate";
-import { fetchAddressByCep } from "@/store/services/address";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  clearAddress,
-  setAddressFromPostalCode,
-  setAddressLoading,
-  setProfileField,
-} from "@/store/slices/profileSlice";
+import toast from "react-hot-toast";
 import styles from "./styles.module.scss";
 
 const TemplatesProfile = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const profile = useAppSelector((state) => state.profile);
 
-  const updateNumberField = (value: string) => {
-    dispatch(
-      setProfileField({
-        field: "number",
-        value: value.replace(/\D/g, ""),
-      }),
-    );
-  };
+  const [perfil, setPerfil] = useState({
+    nome: "Joao Pedro",
+    email: "joao@exemplo.com",
+    profissao: "Desenvolvedor",
+    bio: "",
+    telefone: "",
+    dataNascimento: "",
+    cep: "",
+    logradouro: "",
+    numero: "",
+    localidade: "",
+    uf: "",
+    senhaAtual: "",
+    novaSenha: "",
+    fotoPerfil: "",
+  });
 
-  const validateProfile = () => {
-    if (!profile.fullName.trim()) {
-      toast.error("Nome completo é obrigatório.");
-      return false;
-    }
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    perfil.fotoPerfil || null,
+  );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-    if (!profile.email.trim()) {
-      toast.error("Email é obrigatório.");
-      return false;
-    }
-
-    if (!validationEmail(profile.email)) {
-      toast.error("Email inválido.");
-      return false;
-    }
-
-    if (!profile.profession.trim()) {
-      toast.error("Profissão é obrigatória.");
-      return false;
-    }
-
-    if (!profile.bio.trim()) {
-      toast.error("Bio é obrigatória.");
-      return false;
-    }
-
-    if (!profile.phone.trim()) {
-      toast.error("Telefone é obrigatório.");
-      return false;
-    }
-
-    if (!/^\d{10,11}$/.test(profile.phone.replace(/\D/g, ""))) {
-      toast.error("Telefone inválido.");
-      return false;
-    }
-
-    if (!profile.birthDate) {
-      toast.error("Data de nascimento é obrigatória.");
-      return false;
-    }
-
-    if (!profile.postalCode.trim()) {
-      toast.error("CEP é obrigatório.");
-      return false;
-    }
-
-    if (!/^\d{8}$/.test(profile.postalCode.replace(/\D/g, ""))) {
-      toast.error("CEP inválido.");
-      return false;
-    }
-
-    if (!profile.number.trim()) {
-      toast.error("Número é obrigatório.");
-      return false;
-    }
-
-    if (!/^\d+$/.test(profile.number)) {
-      toast.error("O número do endereço deve conter apenas dígitos.");
-      return false;
-    }
-
-    if (!profile.street.trim()) {
-      toast.error("Logradouro é obrigatório.");
-      return false;
-    }
-
-    if (!profile.neighborhood.trim()) {
-      toast.error("Bairro é obrigatório.");
-      return false;
-    }
-
-    if (!profile.city.trim()) {
-      toast.error("Cidade é obrigatória.");
-      return false;
-    }
-
-    if (!profile.state.trim()) {
-      toast.error("UF é obrigatória.");
-      return false;
-    }
-
-    if (!profile.currentPassword.trim()) {
-      toast.error("Senha atual é obrigatória.");
-      return false;
-    }
-
-    if (!profile.newPassword.trim()) {
-      toast.error("Nova senha é obrigatória.");
-      return false;
-    }
-
-    if (profile.newPassword.length < 6) {
-      toast.error("A nova senha deve ter pelo menos 6 caracteres.");
-      return false;
-    }
-
-    if (!profile.confirmPassword.trim()) {
-      toast.error("Confirmação de senha é obrigatória.");
-      return false;
-    }
-
-    if (profile.newPassword !== profile.confirmPassword) {
-      toast.error("A confirmação de senha não confere.");
-      return false;
-    }
-
-    return true;
+  const updateField = (field: keyof typeof perfil, value: string) => {
+    setPerfil((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleZipCodeBlur = async () => {
-    dispatch(setAddressLoading(true));
-
-    try {
-      const data = await fetchAddressByCep(profile.postalCode);
-
-      if (!data) {
-        dispatch(clearAddress());
-
-        if (profile.postalCode.trim()) {
-          toast.error("CEP não encontrado.");
-        }
-
-        return;
-      }
-
-      dispatch(setAddressFromPostalCode(data));
-    } catch (error) {
-      console.error("Erro ao buscar CEP:", error);
-      toast.error("Não foi possível buscar o endereço.");
-    } finally {
-      dispatch(setAddressLoading(false));
+    if (perfil.cep.length < 8) return;
+    const data = await getAddressByCep(perfil.cep);
+    if (data) {
+      setPerfil((prev) => ({
+        ...prev,
+        logradouro: data.logradouro,
+        localidade: data.localidade,
+        uf: data.uf,
+      }));
+      toast.success("Endereço encontrado!");
     }
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsUploading(true);
 
-    if (!validateProfile()) {
+    try {
+      let finalImageUrl = perfil.fotoPerfil;
+
+      if (selectedFile) {
+        const uploadData = await uploadUserAvatar(selectedFile);
+        finalImageUrl = uploadData.url;
+        setSelectedFile(null);
+      }
+
+      const payload = { ...perfil, fotoPerfil: finalImageUrl };
+      setPerfil(payload);
+      setImagePreview(finalImageUrl);
+
+      console.log("Payload Final:", payload);
+      toast.success("Perfil atualizado com sucesso!");
+    } catch (error: any) {
+      toast.error(error.message || "Erro ao salvar.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Máximo 2MB");
       return;
     }
 
-    console.log("Dados salvos:", profile);
-    toast.success("Perfil salvo com sucesso.");
+    setSelectedFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setImagePreview(reader.result as string);
+    reader.readAsDataURL(file);
   };
 
   return (
     <section className={styles["profile"]}>
-      <Toaster />
       <header className={styles["profile__header"]}>
         <div className={styles["profile__header_info"]}>
           <div className={styles["profile__title_container"]}>
-            <button
-              type="button"
-              className={styles["profile__back_button"]}
-              onClick={() => router.push("/")}
-            >
+            <AtomsButton variant="icon" onClick={() => router.push("/")}>
               <AtomsIconSvg name="arrow-left" width="24px" height="24px" />
-            </button>
-
-            <AtomsText
-              fontSize="32px"
-              fontWeight="bold"
-              color="var(--color-primary)"
-            >
+            </AtomsButton>
+            <AtomsText fontSize="32px" fontWeight="bold">
               Meu Perfil
             </AtomsText>
           </div>
-          <AtomsText fontSize="16px" color="var(--text-tertiary)">
-            Gerencie suas informações da conta e segurança
+          <AtomsText fontSize="16px">
+            Gerencie suas informações e segurança
           </AtomsText>
         </div>
       </header>
 
       <form className={styles["profile__form"]} onSubmit={handleSave}>
         <div className={styles["profile__card"]}>
+          <header className={styles["profile__card-title"]}>
+            <AtomsText fontSize="18px" fontWeight="bold">
+              Dados Pessoais
+            </AtomsText>
+          </header>
+
           <div className={styles["profile__grid_profile"]}>
+            <div className={styles["profile__avatar-section"]}>
+              <div className={styles["profile__avatar-wrapper"]}>
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="Perfil"
+                    className={styles["profile__avatar-img"]}
+                  />
+                ) : (
+                  <div className={styles["profile__avatar-placeholder"]}>
+                    {perfil.nome.charAt(0)}
+                  </div>
+                )}
+                {isUploading && (
+                  <div className={styles["profile__avatar-loading"]} />
+                )}
+              </div>
+
+              <div className={styles["profile__avatar-info"]}>
+                <AtomsButton
+                  variant="secondary"
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                >
+                  {isUploading ? "Enviando..." : "Alterar Foto"}
+                </AtomsButton>
+                <AtomsText fontSize="12px" color="gray">
+                  JPG ou PNG. Máximo de 2MB.
+                </AtomsText>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                  accept="image/*"
+                  style={{ display: "none" }}
+                />
+              </div>
+            </div>
+
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Nome Completo
-              </AtomsText>
+              <AtomsText fontSize="14px">Nome Completo</AtomsText>
               <MoleculesInput
-                value={profile.fullName}
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "fullName", value }))
-                }
+                value={perfil.nome}
+                onInput={(v) => updateField("nome", v)}
+                placeholder="Ex: João Silva"
               />
             </div>
+
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Profissão
-              </AtomsText>
+              <AtomsText fontSize="14px">Profissão</AtomsText>
               <MoleculesInput
-                value={profile.profession}
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "profession", value }))
-                }
+                value={perfil.profissao}
+                onInput={(v) => updateField("profissao", v)}
+                placeholder="Ex: Desenvolvedor"
               />
             </div>
+
+            <div className={styles["profile__field"]}>
+              <AtomsText fontSize="14px">Telefone</AtomsText>
+              <MoleculesInput
+                value={perfil.telefone}
+                onInput={(v) => updateField("telefone", v)}
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+
+            <div className={styles["profile__field"]}>
+              <AtomsText fontSize="14px">Data de Nascimento</AtomsText>
+              <MoleculesInput
+                type="date"
+                value={perfil.dataNascimento}
+                onInput={(v) => updateField("dataNascimento", v)}
+              />
+            </div>
+
             <div
               className={`${styles["profile__field"]} ${styles["profile__field--full"]}`}
             >
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Bio
-              </AtomsText>
-              <textarea
-                className={styles["profile__textarea"]}
-                value={profile.bio}
-                onChange={(e) =>
-                  dispatch(
-                    setProfileField({ field: "bio", value: e.target.value }),
-                  )
-                }
+              <AtomsText fontSize="14px">Bio</AtomsText>
+              <MoleculesInput
+                value={perfil.bio}
+                onInput={(v) => updateField("bio", v)}
                 placeholder="Conte um pouco sobre você..."
               />
             </div>
@@ -250,176 +211,85 @@ const TemplatesProfile = () => {
         </div>
 
         <div className={styles["profile__card"]}>
-          <div className={styles["profile__section_header"]}>
-            <AtomsIconSvg name="search" width="18px" height="18px" />
-            <AtomsText fontSize="18px" fontWeight="bold">
-              Contato e Dados
-            </AtomsText>
-          </div>
-          <div className={styles["profile__grid"]}>
-            <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Telefone
-              </AtomsText>
-              <MoleculesInput
-                value={profile.phone}
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "phone", value }))
-                }
-              />
-            </div>
-            <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Data de Nascimento
-              </AtomsText>
-              <MoleculesInput
-                type="date"
-                value={profile.birthDate}
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "birthDate", value }))
-                }
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles["profile__card"]}>
-          <div className={styles["profile__section_header"]}>
-            <AtomsIconSvg name="landing" width="20px" height="20px" />
+          <header className={styles["profile__card-title"]}>
             <AtomsText fontSize="18px" fontWeight="bold">
               Endereço
             </AtomsText>
-          </div>
-          <div className={styles["profile__grid_address"]}>
+          </header>
+
+          <div className={styles["profile__grid_profile"]}>
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                CEP
-              </AtomsText>
+              <AtomsText fontSize="14px">CEP</AtomsText>
               <MoleculesInput
-                value={profile.postalCode}
-                variant="secondary"
+                value={perfil.cep}
+                onInput={(v) => updateField("cep", v)}
                 onBlur={handleZipCodeBlur}
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "postalCode", value }))
-                }
+                placeholder="00000-000"
               />
             </div>
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                N°
-              </AtomsText>
+              <AtomsText fontSize="14px">Logradouro</AtomsText>
               <MoleculesInput
-                value={profile.number}
-                variant="secondary"
-                onInput={updateNumberField}
-              />
-            </div>
-            <div
-              className={`${styles["profile__field"]} ${styles["profile__field--full"]}`}
-            >
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Rua/Logradouro
-              </AtomsText>
-              <MoleculesInput
-                value={profile.street}
-                variant="secondary"
-                disabled={profile.isFetchingAddress}
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "street", value }))
-                }
+                value={perfil.logradouro}
+                onInput={(v) => updateField("logradouro", v)}
+                placeholder="Rua, Avenida..."
               />
             </div>
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Bairro
-              </AtomsText>
+              <AtomsText fontSize="14px">Cidade/Localidade</AtomsText>
               <MoleculesInput
-                value={profile.neighborhood}
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "neighborhood", value }))
-                }
+                value={perfil.localidade}
+                onInput={(v) => updateField("localidade", v)}
+                placeholder="Sua cidade"
               />
             </div>
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Cidade
-              </AtomsText>
+              <AtomsText fontSize="14px">UF</AtomsText>
               <MoleculesInput
-                value={profile.city}
-                variant="secondary"
-                disabled
-              />
-            </div>
-            <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                UF
-              </AtomsText>
-              <MoleculesInput
-                value={profile.state}
-                variant="secondary"
-                disabled
+                value={perfil.uf}
+                onInput={(v) => updateField("uf", v)}
+                placeholder="Estado"
               />
             </div>
           </div>
         </div>
 
         <div className={styles["profile__card"]}>
-          <div className={styles["profile__section_header"]}>
-            <AtomsIconSvg name="eye" width="20px" height="20px" />
+          <header className={styles["profile__card-title"]}>
             <AtomsText fontSize="18px" fontWeight="bold">
               Segurança
             </AtomsText>
-          </div>
-          <div className={styles["profile__grid"]}>
+          </header>
+
+          <div className={styles["profile__grid_profile"]}>
             <div className={styles["profile__field"]}>
-              <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                Senha Atual
-              </AtomsText>
+              <AtomsText fontSize="14px">Senha Atual</AtomsText>
               <MoleculesInput
                 type="password"
-                variant="secondary"
-                onInput={(value) =>
-                  dispatch(setProfileField({ field: "currentPassword", value }))
-                }
+                value={perfil.senhaAtual}
+                onInput={(v) => updateField("senhaAtual", v)}
+                placeholder="••••••••"
               />
             </div>
-            <div className={styles["profile__grid_two"]}>
-              <div className={styles["profile__field"]}>
-                <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                  Nova Senha
-                </AtomsText>
-                <MoleculesInput
-                  type="password"
-                  variant="secondary"
-                  onInput={(value) =>
-                    dispatch(setProfileField({ field: "newPassword", value }))
-                  }
-                />
-              </div>
-              <div className={styles["profile__field"]}>
-                <AtomsText fontSize="14px" color="var(--text-tertiary)">
-                  Confirmar Senha
-                </AtomsText>
-                <MoleculesInput
-                  type="password"
-                  variant="secondary"
-                  onInput={(value) =>
-                    dispatch(
-                      setProfileField({ field: "confirmPassword", value }),
-                    )
-                  }
-                />
-              </div>
+            <div className={styles["profile__field"]}>
+              <AtomsText fontSize="14px">Nova Senha</AtomsText>
+              <MoleculesInput
+                type="password"
+                value={perfil.novaSenha}
+                onInput={(v) => updateField("novaSenha", v)}
+                placeholder="No mínimo 6 caracteres"
+              />
             </div>
           </div>
         </div>
 
         <div className={styles["profile__footer"]}>
-          <AtomsButton type="submit" variant="primary">
-            Salvar Alterações
+          <AtomsButton
+            type="submit"
+            disabled={isUploading}
+            className={styles["profile__save-button"]}
+          >
+            {isUploading ? "Salvando..." : "Salvar Alterações"}
           </AtomsButton>
         </div>
       </form>

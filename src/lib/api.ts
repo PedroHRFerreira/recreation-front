@@ -13,17 +13,20 @@ export async function api<T>(
   const { method = "GET", body, headers } = options || {};
   const url = endpoint.startsWith("http") ? endpoint : `${env.baseUrl}${endpoint}`;
 
-  const response = await fetch(url, {
+  const isFormData = body instanceof FormData;
+
+  const response = await fetch(`${env.baseUrl}${endpoint}`, {
     method,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...headers,
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: isFormData ? (body as any) : body ? JSON.stringify(body) : undefined,
   });
 
   if (!response.ok) {
-    throw new Error(`API Error: ${response.status}`);
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `API Error: ${response.status}`);
   }
 
   return response.json();
