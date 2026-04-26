@@ -1,8 +1,6 @@
-import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export const useAuthRedirect = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   console.log("useAuthRedirect - pathname:", pathname);

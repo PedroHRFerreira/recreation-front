@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { uploadUserAvatar } from "@/services/userService";
-import { getAddressByCep } from "@/stores/addressStore";
+import { uploadUserAvatar, getAddressByCep } from "@/lib/userService";
 import AtomsText from "@/components/Text/Index";
 import AtomsButton from "@/components/Button/index";
 import MoleculesInput from "@/components/Input/Index";

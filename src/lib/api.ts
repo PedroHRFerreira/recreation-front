@@ -11,6 +11,7 @@ export async function api<T>(
   options?: RequestOptions
 ): Promise<T> {
   const { method = "GET", body, headers } = options || {};
+  const url = endpoint.startsWith("http") ? endpoint : `${env.baseUrl}${endpoint}`;
 
   const isFormData = body instanceof FormData;
 
@@ -31,7 +32,6 @@ export async function api<T>(
   return response.json();
 }
 
-// Métodos auxiliares
 export const apiService = {
   get: <T>(endpoint: string) => api<T>(endpoint),
   post: <T>(endpoint: string, body: unknown) =>

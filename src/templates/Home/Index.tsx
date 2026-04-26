@@ -1,11 +1,16 @@
 import styles from "./styles.module.scss";
 import Card from "@/components/Card/Index";
-import { useFetchHome } from "@/stores/Home/UseHome";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
+import { useAppSelector } from "@/store/hooks";
+import { getProjects } from "@/store/services/projects";
 
 const TemplatesHome = () => {
-  const homeData = useFetchHome();
   const router = useRouter();
+  const projects = getProjects();
+  const { search, selectedStatus, selectedType } = useAppSelector(
+    (state) => state.ui,
+  );
 
   const handleAdd = () => {
     router.push("/create");
@@ -15,10 +20,28 @@ const TemplatesHome = () => {
     router.push(`/${id}/edit`);
   };
 
+  const filteredProjects = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    return projects.filter((project) => {
+      const matchesSearch =
+        !normalizedSearch ||
+        project.title.toLowerCase().includes(normalizedSearch) ||
+        project.description.toLowerCase().includes(normalizedSearch);
+
+      const matchesType =
+        selectedType === "todos" || project.type === selectedType;
+
+      const matchesStatus = project.status === selectedStatus;
+
+      return matchesSearch && matchesType && matchesStatus;
+    });
+  }, [projects, search, selectedStatus, selectedType]);
+
   return (
     <section className={styles.home}>
       <div className={styles.home__grid}>
-        {homeData.map((item) => (
+        {filteredProjects.map((item) => (
           <Card
             key={item.id}
             image={item.image}
